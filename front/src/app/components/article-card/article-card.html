@@ -2,7 +2,7 @@
   <h3 class="title">{{ article().title }}</h3>
   <div class="meta">
     <span>{{ article().createdAt | date: 'dd/MM/yyyy' }}</span>
-    <span>{{ article().author }}</span>
+    <span>{{ article().authorId }}</span>
   </div>
   <p class="content">{{ article().content }}</p>
   <a [routerLink]="['/articles', article().id]">Lire la suite</a>
