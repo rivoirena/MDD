@@ -5,4 +5,5 @@
     <span>{{ article().author }}</span>
   </div>
   <p class="content">{{ article().content }}</p>
+  <a [routerLink]="['/articles', article().id]">Lire la suite</a>
 </mat-card>
