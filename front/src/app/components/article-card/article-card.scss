@@ -1,0 +1,28 @@
+.article-card {
+  background: #f4f4f4;
+  border-radius: 12px;
+  box-shadow: none;
+  padding: 16px 24px;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.title {
+  margin: 0 0 16px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.meta {
+  display: flex;
+  gap: 80px;
+  margin-bottom: 16px;
+}
+
+.content {
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
