@@ -1,0 +1,5 @@
+<div class="articles-grid">
+  @for (article of articles(); track article.id) {
+    <app-article-card [article]="article" />
+  }
+</div>
