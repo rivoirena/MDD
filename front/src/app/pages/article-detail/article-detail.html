@@ -2,3 +2,17 @@
   <h1>{{ article.title }}</h1>
   <p>{{ article.content }}</p>
 }
+
+
+<section>
+  <h2>Commentaires</h2>
+
+  @for (comment of comments(); track comment.id) {
+    <div class="comment">
+      <p>{{ comment.content }}</p>
+      <small>{{ comment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
+    </div>
+  } @empty {
+    <p>Aucun commentaire pour le moment.</p>
+  }
+</section>
