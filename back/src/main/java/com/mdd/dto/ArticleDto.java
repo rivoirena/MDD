@@ -13,7 +13,7 @@ public class ArticleDto {
     private Long id;
     private String title;
     private String content;
-    private Long author_id;
-    private Long theme_id;
+    private Long authorId;
+    private Long themeId;
     private LocalDateTime createdAt;
 }
