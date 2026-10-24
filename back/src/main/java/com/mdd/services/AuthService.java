@@ -4,7 +4,9 @@ import com.mdd.exception.EmailAlreadyExistsException;
 import com.mdd.exception.UsernameAlreadyExistsException;
 import com.mdd.models.User;
 import com.mdd.payload.request.RegisterRequest;
-import com.mdd.repository.UserRepository;
+import com.mdd.payload.response.JwtResponse;
+import com.mdd.security.JwtService;
+import com.mdd.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,23 +16,27 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class AuthService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     @Transactional
-    public User register(RegisterRequest request) {
-        if (userRepository.existsByEmail(request.getEmail())) {
+    public JwtResponse register(RegisterRequest request) {
+        if (userService.existsByEmail(request.getEmail())) {
             throw new EmailAlreadyExistsException();
         }
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userService.existsByUsername(request.getUsername())) {
             throw new UsernameAlreadyExistsException();
         }
 
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        User user = User.builder()
+                .email(request.getEmail())
+                .username(request.getUsername())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .build();
 
-        return userRepository.save(user);
+        User savedUser = userService.save(user);
+
+        return new JwtResponse(jwtService.generateToken(savedUser));
     }
 }
