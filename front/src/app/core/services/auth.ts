@@ -10,20 +10,33 @@ import { LoginRequest } from '../models/loginRequest.interface';
 export class Auth {
   private http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/auth`;
-  
-  private saveSession(session: JwtResponse): void {
-    localStorage.setItem('token', session.token);
+  private readonly TOKEN_KEY = 'token';
+
+  public register(registerRequest: RegisterRequest): Observable<JwtResponse> {
+    return this.http
+      .post<JwtResponse>(`${this.baseUrl}/register`, registerRequest)
+      .pipe(tap((session) => this.saveSession(session.token)));
   }
 
-  public register(req: RegisterRequest): Observable<JwtResponse> {
+  public login(loginRequest: LoginRequest): Observable<JwtResponse> {
     return this.http
-      .post<JwtResponse>(`${this.baseUrl}/register`, req)
-      .pipe(tap((session) => this.saveSession(session)));
+      .post<JwtResponse>(`${this.baseUrl}/login`, loginRequest)
+      .pipe(tap((session) => this.saveSession(session.token)));
   }
 
-  public login(req: LoginRequest): Observable<JwtResponse> {
-    return this.http
-      .post<JwtResponse>(`${this.baseUrl}/login`, req)
-      .pipe(tap((session) => this.saveSession(session)));
+  public getToken(): string | null {
+    return localStorage.getItem(this.TOKEN_KEY);
+  }
+
+  public isLoggedIn(): boolean {
+    return this.getToken() !== null;
+  }
+
+  public logout(): void {
+    localStorage.removeItem(this.TOKEN_KEY);
+  }
+
+  private saveSession(token: string): void {
+    localStorage.setItem(this.TOKEN_KEY, token);
   }
 }
