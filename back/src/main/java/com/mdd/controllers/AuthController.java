@@ -1,6 +1,7 @@
 package com.mdd.controllers;
 
 
+import com.mdd.payload.request.LoginRequest;
 import com.mdd.payload.request.RegisterRequest;
 import com.mdd.payload.response.JwtResponse;
 import com.mdd.services.AuthService;
@@ -24,6 +25,11 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<JwtResponse> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequest));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        return ResponseEntity.ok(authService.login(loginRequest));
     }
 }
 
