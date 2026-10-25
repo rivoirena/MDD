@@ -1,0 +1,13 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <h2>Inscription</h2>
+
+  <input type="text" formControlName="username" placeholder="Nom d'utilisateur" />
+  <input type="email" formControlName="email" placeholder="Email" />
+  <input type="password" formControlName="password" placeholder="Mot de passe" />
+
+  @if (onError) {
+    <p class="error">Une erreur est survenue, réessaie.</p>
+  }
+
+  <button type="submit" [disabled]="form.invalid">S'inscrire</button>
+</form>
