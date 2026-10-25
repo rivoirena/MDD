@@ -39,7 +39,6 @@ export class Register {
 
     this.auth.register(registerRequest).subscribe({
       next: (session: JwtResponse) => {
-        localStorage.setItem('token', session.token);
         this.router.navigate(['/articles']);
       },
       error: () => (this.onError = true),
