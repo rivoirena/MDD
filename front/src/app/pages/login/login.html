@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <h1>Connexion</h1>
+
+  <label for="identifier">Nom d'utilisateur ou e-mail</label>
+  <input id="identifier" type="text" formControlName="identifier" />
+
+  <label for="password">Mot de passe</label>
+  <input id="password" type="password" formControlName="password" />
+@if (onError()) {
+  <p class="error">Identifiants incorrects.</p>
+}
+
+  <button type="submit" [disabled]="form.invalid">Se connecter</button>
+</form>

@@ -1,8 +1,10 @@
 package com.mdd.services;
 
 import com.mdd.exception.EmailAlreadyExistsException;
+import com.mdd.exception.InvalidCredentialsException;
 import com.mdd.exception.UsernameAlreadyExistsException;
 import com.mdd.models.User;
+import com.mdd.payload.request.LoginRequest;
 import com.mdd.payload.request.RegisterRequest;
 import com.mdd.payload.response.JwtResponse;
 import com.mdd.security.JwtService;
@@ -38,5 +40,17 @@ public class AuthService {
         User savedUser = userService.save(user);
 
         return new JwtResponse(jwtService.generateToken(savedUser));
+    }
+
+    @Transactional(readOnly = true)
+    public JwtResponse login(LoginRequest request) {
+        User user = userService.findByEmailOrUsername(request.getIdentifier())
+                .orElseThrow(InvalidCredentialsException::new);
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new InvalidCredentialsException();
+        }
+
+        return new JwtResponse(jwtService.generateToken(user));
     }
 }

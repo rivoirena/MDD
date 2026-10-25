@@ -20,6 +20,10 @@ public class RegisterRequest {
 
     @NotBlank
     @Size(max = 50)
+    @Pattern(
+            regexp = "^[^@\\s]+$",
+            message = "Le nom d'utilisateur ne doit pas contenir de @ ni d'espaces"
+    )
     private String username;
 
     @NotBlank
