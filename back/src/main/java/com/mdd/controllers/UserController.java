@@ -25,8 +25,8 @@ public class UserController {
     }
 
     @PutMapping("/me")
-    public JwtResponse updateMe(@AuthenticationPrincipal String email,
+    public ResponseEntity<JwtResponse> updateMe(@AuthenticationPrincipal String email,
                                 @Valid @RequestBody UpdateProfileRequest request) {
-        return userService.updateProfile(email, request);
+        return ResponseEntity.ok(userService.updateProfile(email, request));
     }
 }
