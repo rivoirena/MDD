@@ -6,10 +6,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { UserApi } from '../../core/services/user-api';
+import { ThemeCard } from '../../components/theme-card/theme-card';
 
 @Component({
   selector: 'app-me',
-  imports: [FormField, MatFormFieldModule, MatInputModule, MatButtonModule],
+  imports: [FormField, MatFormFieldModule, MatInputModule, MatButtonModule, ThemeCard],
   templateUrl: './me.html',
   styleUrl: './me.scss',
 })
@@ -19,6 +20,8 @@ export class Me {
   private refresh = signal(0);
 
   user = toSignal(toObservable(this.refresh).pipe(switchMap(() => this.userApi.loadProfile())));
+
+  subscriptions = toSignal(this.userApi.getSubscriptions(), { initialValue: [] });
 
   // Se réinitialise automatiquement à chaque nouveau profil chargé
   model = linkedSignal(() => ({

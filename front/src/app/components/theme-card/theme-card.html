@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>{{ theme().title }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <p>{{ theme().description }}</p>
+  </mat-card-content>
+  @if (actionLabel()) {
+    <mat-card-actions>
+      <button mat-flat-button type="button" (click)="action.emit(theme())">
+        {{ actionLabel() }}
+      </button>
+    </mat-card-actions>
+  }
+</mat-card>

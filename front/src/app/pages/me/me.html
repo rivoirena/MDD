@@ -37,3 +37,11 @@
     Sauvegarder
   </button>
 </form>
+
+<h2>Mes abonnements</h2>
+
+@for (theme of subscriptions(); track theme.id) {
+  <app-theme-card [theme]="theme" />
+} @empty {
+  <p>Vous n'êtes abonné à aucun thème.</p>
+}
