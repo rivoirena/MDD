@@ -1,0 +1,39 @@
+<h1>Profil utilisateur</h1>
+
+<form (submit)="save($event)" novalidate>
+  <mat-form-field appearance="outline">
+    <mat-label>Nom d'utilisateur</mat-label>
+    <input matInput [formField]="profileForm.username" />
+    @for (e of profileForm.username().errors(); track e.kind) {
+      <mat-error>{{ e.message }}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput type="email" [formField]="profileForm.email" />
+    @for (e of profileForm.email().errors(); track e.kind) {
+      <mat-error>{{ e.message }}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Mot de passe</mat-label>
+    <input matInput type="password" [formField]="profileForm.password" />
+    <mat-hint>Laisser vide pour ne pas le changer</mat-hint>
+    @for (e of profileForm.password().errors(); track e.kind) {
+      <mat-error>{{ e.message }}</mat-error>
+    }
+  </mat-form-field>
+
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+  @if (successMessage()) {
+    <p class="success">{{ successMessage() }}</p>
+  }
+
+  <button mat-flat-button type="submit" [disabled]="profileForm().invalid() || !this.hasChanges()">
+    Sauvegarder
+  </button>
+</form>
