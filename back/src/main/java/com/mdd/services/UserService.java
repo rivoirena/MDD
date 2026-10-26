@@ -5,6 +5,7 @@ import com.mdd.exception.UsernameAlreadyExistsException;
 import com.mdd.models.User;
 import com.mdd.payload.request.UpdateProfileRequest;
 import com.mdd.payload.response.JwtResponse;
+import com.mdd.payload.response.UserResponse;
 import com.mdd.repository.UserRepository;
 import com.mdd.security.JwtService;
 import jakarta.persistence.EntityNotFoundException;
@@ -45,6 +46,13 @@ public class UserService {
 
     public Optional<User> findByEmailOrUsername(String identifier) {
         return userRepository.findByEmailOrUsername(identifier, identifier);
+    }
+
+    @Transactional(readOnly = true)
+    public UserResponse getProfile(String currentEmail) {
+        User user = userRepository.findByEmail(currentEmail)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur introuvable"));
+        return new UserResponse(user.getEmail(), user.getUsername());
     }
 
     @Transactional
