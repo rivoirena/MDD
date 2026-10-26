@@ -2,9 +2,11 @@ package com.mdd.services;
 
 import com.mdd.exception.EmailAlreadyExistsException;
 import com.mdd.exception.UsernameAlreadyExistsException;
+import com.mdd.mapper.ThemeMapper;
 import com.mdd.models.User;
 import com.mdd.payload.request.UpdateProfileRequest;
 import com.mdd.payload.response.JwtResponse;
+import com.mdd.payload.response.ThemeResponse;
 import com.mdd.payload.response.UserResponse;
 import com.mdd.repository.UserRepository;
 import com.mdd.security.JwtService;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +26,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
+    private final ThemeMapper themeMapper;
 
     public User save(User user) {
         return userRepository.save(user);
@@ -85,5 +89,12 @@ public class UserService {
         userRepository.save(user);
 
         return new JwtResponse(jwtService.generateToken(user));
+    }
+
+    @Transactional(readOnly = true)
+    public List<ThemeResponse> getSubscriptions(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new EntityNotFoundException("Utilisateur introuvable"));
+        return themeMapper.toResponseList(user.getSubscriptions());
     }
 }
