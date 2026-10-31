@@ -29,8 +29,23 @@ public class SubscriptionService {
                 .toList();
     }
 
+    @Transactional
+    public void subscribe(String email, Long themeId) {
+        findUser(email).getSubscriptions().add(findTheme(themeId));
+    }
+
+    @Transactional
+    public void unsubscribe(String email, Long themeId) {
+        findUser(email).getSubscriptions().remove(findTheme(themeId));
+    }
+
     private User findUser(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException("Utilisateur introuvable"));
+    }
+
+    private Theme findTheme(Long id) {
+        return themeRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Thème introuvable"));
     }
 }

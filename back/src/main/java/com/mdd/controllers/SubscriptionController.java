@@ -5,9 +5,7 @@ import com.mdd.services.SubscriptionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +19,18 @@ public class SubscriptionController {
     @GetMapping
     public ResponseEntity<List<ThemeResponse>> getMySubscriptions(@AuthenticationPrincipal String email) {
         return ResponseEntity.ok(subscriptionService.getSubscriptions(email));
+    }
+    @PostMapping("/{themeId}")
+    public ResponseEntity<Void> subscribe(@PathVariable Long themeId,
+                                          @AuthenticationPrincipal String email) {
+        subscriptionService.subscribe(email, themeId);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/{themeId}")
+    public ResponseEntity<Void> unsubscribe(@PathVariable Long themeId,
+                                            @AuthenticationPrincipal String email) {
+        subscriptionService.unsubscribe(email, themeId);
+        return ResponseEntity.noContent().build();
     }
 }
