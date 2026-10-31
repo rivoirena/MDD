@@ -7,6 +7,7 @@
       [theme]="theme"
       [actionLabel]="theme.subscribed ? 'Déjà abonné' : 'S\'abonner'"
       [actionDisabled]="theme.subscribed"
+      (action)="subscribe($event)"
     />
   }
 </div>

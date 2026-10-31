@@ -1,5 +1,5 @@
 import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
-import { toObservable, toSignal } from '@angular/core/rxjs-interop';
+import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
 import { form, FormField, required, email, pattern, validate } from '@angular/forms/signals';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { UserApi } from '../../core/services/user-api';
 import { ThemeCard } from '../../components/theme-card/theme-card';
 import { SubscriptionApi } from '../../core/services/subsciption-api';
+import { Theme } from '../../core/models/theme';
 
 @Component({
   selector: 'app-me',
@@ -23,7 +24,9 @@ export class Me {
 
   user = toSignal(toObservable(this.refresh).pipe(switchMap(() => this.userApi.loadProfile())));
 
-  subscriptions = toSignal(this.subscriptionApi.getSubscriptions(), { initialValue: [] });
+  subscriptions = rxResource({
+    stream: () => this.subscriptionApi.getSubscriptions(),
+  });
 
   // Se réinitialise automatiquement à chaque nouveau profil chargé
   model = linkedSignal(() => ({
@@ -86,5 +89,11 @@ export class Me {
         error: (err) =>
           this.errorMessage.set(err.error?.message ?? 'Erreur lors de la mise à jour'),
       });
+  }
+
+  unsubscribe(theme: Theme): void {
+    this.subscriptionApi.unsubscribe(theme.id).subscribe({
+      next: () => this.subscriptions.reload(),
+    });
   }
 }
