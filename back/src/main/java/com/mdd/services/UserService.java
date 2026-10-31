@@ -90,11 +90,4 @@ public class UserService {
 
         return new JwtResponse(jwtService.generateToken(user));
     }
-
-    @Transactional(readOnly = true)
-    public List<ThemeResponse> getSubscriptions(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new EntityNotFoundException("Utilisateur introuvable"));
-        return themeMapper.toResponseList(user.getSubscriptions());
-    }
 }
