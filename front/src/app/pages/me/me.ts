@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { UserApi } from '../../core/services/user-api';
 import { ThemeCard } from '../../components/theme-card/theme-card';
+import { SubscriptionApi } from '../../core/services/subsciption-api';
 
 @Component({
   selector: 'app-me',
@@ -16,12 +17,13 @@ import { ThemeCard } from '../../components/theme-card/theme-card';
 })
 export class Me {
   private userApi = inject(UserApi);
+  private subscriptionApi = inject(SubscriptionApi);
 
   private refresh = signal(0);
 
   user = toSignal(toObservable(this.refresh).pipe(switchMap(() => this.userApi.loadProfile())));
 
-  subscriptions = toSignal(this.userApi.getSubscriptions(), { initialValue: [] });
+  subscriptions = toSignal(this.subscriptionApi.getSubscriptions(), { initialValue: [] });
 
   // Se réinitialise automatiquement à chaque nouveau profil chargé
   model = linkedSignal(() => ({
