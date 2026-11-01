@@ -7,6 +7,7 @@ import { Login } from './pages/login/login';
 import { authGuard } from './guards/auth-guard';
 import { Me } from './pages/me/me';
 import { Themes } from './pages/themes/themes';
+import { ArticleCreate } from './pages/article-create/article-create';
 
 export const routes: Routes = [ 
   { path: 'login', component: Login },
@@ -15,5 +16,6 @@ export const routes: Routes = [
   { path: 'themes', component: Themes },
   { path: 'articles', component: ArticleList, canActivate: [authGuard]  },
   { path: '', redirectTo: 'articles', pathMatch: 'full' },
+  { path: 'articles/new', component: ArticleCreate, canActivate: [authGuard]  },
   { path: 'articles/:id', component: ArticleDetail, canActivate: [authGuard]  },
 ];
