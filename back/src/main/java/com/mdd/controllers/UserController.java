@@ -32,9 +32,4 @@ public class UserController {
                                 @Valid @RequestBody UpdateProfileRequest request) {
         return ResponseEntity.ok(userService.updateProfile(email, request));
     }
-
-    @GetMapping("/me/subscriptions")
-    public ResponseEntity<List<ThemeResponse>> getSubscriptions(@AuthenticationPrincipal String email) {
-        return ResponseEntity.ok(userService.getSubscriptions(email));
-    }
 }

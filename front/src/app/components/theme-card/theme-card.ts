@@ -12,5 +12,6 @@ import { Theme } from '../../core/models/theme';
 export class ThemeCard {
   theme = input.required<Theme>();
   actionLabel = input<string>();
+  actionDisabled = input(false);
   action = output<Theme>();
 }

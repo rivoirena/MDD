@@ -24,8 +24,4 @@ export class UserApi {
       tap((res) => localStorage.setItem('token', res.token)), // adaptez à votre AuthService
     );
   }
-  
-  getSubscriptions(): Observable<Theme[]> {
-    return this.http.get<Theme[]>(`${this.baseUrl}/me/subscriptions`);
-  }
 }
