@@ -31,7 +31,7 @@ export class ArticleDetail {
   model = signal({ content: '' });
 
   commentForm = form(this.model, (p) => {
-    required(p.content, { message: 'Le commentaire ne peut pas ĂŞtre vide' });
+    required(p.content, { message: 'Le commentaire ne peut pas être vide' });
   });
 
   onSubmit(event: Event) {
