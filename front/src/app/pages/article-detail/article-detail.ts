@@ -1,9 +1,10 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, inject, input, numberAttribute, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ArticleApi } from '../../core/services/article-api';
 import { CommentApi } from '../../core/services/comment-api';
 import { DatePipe } from '@angular/common';
 import { form, FormField, required, submit } from '@angular/forms/signals';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-article-detail',
@@ -15,15 +16,15 @@ export class ArticleDetail {
   private articleApi = inject(ArticleApi);
   private commentApi = inject(CommentApi);
 
-  id = input.required<string>();
+  id = input.required<number, string>({ transform: numberAttribute });
 
   article = rxResource({
-    params: () => Number(this.id()),
+    params: () => this.id(),
     stream: ({ params }) => this.articleApi.getArticleById(params),
   });
 
   comments = rxResource({
-    params: () => Number(this.id()),
+    params: () => this.id(),
     stream: ({ params }) => this.commentApi.getCommentsByArticleId(params),
     defaultValue: [],
   });
@@ -38,19 +39,9 @@ export class ArticleDetail {
     event.preventDefault();
 
     submit(this.commentForm, async () => {
-      const { content } = this.model();
-
-      return new Promise<void>((resolve) => {
-        this.commentApi.createComment(Number(this.id()), content).subscribe({
-          next: () => {
-            this.model.set({ content: '' });
-            this.commentForm().reset();
-            this.comments.reload();
-            resolve();
-          },
-          error: () => resolve(),
-        });
-      });
+      await firstValueFrom(this.commentApi.createComment(this.id(), this.model().content));
+      this.commentForm().reset({ content: '' });
+      this.comments.reload();
     });
   }
 }
