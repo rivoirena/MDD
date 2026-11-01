@@ -1,12 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginRequest } from '../../core/models/login-request';
 import { Auth } from '../../core/services/auth';
+import { form, FormField, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-login',
-  imports: [ReactiveFormsModule],
+  imports: [FormField],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })
@@ -17,17 +18,20 @@ export class Login {
 
   onError = signal(false);
 
-  form = this.fb.nonNullable.group({
-    identifier: ['', [Validators.required]],
-    password: ['', [Validators.required]],
+  model = signal<LoginRequest>({ identifier: '', password: '' });
+
+  loginForm = form(this.model, (p) => {
+    required(p.identifier, { message: 'Identifiant requis' });
+    required(p.password, { message: 'Mot de passe requis' });
   });
 
-  submit(): void {
-    if (this.form.invalid) return;
+  submit(event: Event): void {
+    event.preventDefault();
+    if (this.loginForm().invalid()) return;
 
-    const loginRequest = this.form.getRawValue() as LoginRequest;
+    this.onError.set(false);
 
-    this.auth.login(loginRequest).subscribe({
+    this.auth.login(this.model()).subscribe({
       next: () => this.router.navigate(['/articles']),
       error: () => this.onError.set(true),
     });

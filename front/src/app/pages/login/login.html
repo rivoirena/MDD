@@ -1,15 +1,15 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form (submit)="submit($event)" novalidate>
   <h1>Connexion</h1>
 
   <label for="identifier">Nom d'utilisateur ou e-mail</label>
-  <input id="identifier" type="text" formControlName="identifier" />
+  <input id="identifier" type="text" [formField]="loginForm.identifier" />
 
   <label for="password">Mot de passe</label>
-  <input id="password" type="password" formControlName="password" />
-  
+  <input id="password" type="password" [formField]="loginForm.password" />
+
   @if (onError()) {
     <p class="error">Identifiants incorrects.</p>
   }
 
-  <button type="submit" [disabled]="form.invalid">Se connecter</button>
+  <button type="submit" [disabled]="loginForm().invalid()">Se connecter</button>
 </form>

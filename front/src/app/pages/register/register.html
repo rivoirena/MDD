@@ -1,13 +1,24 @@
-<form [formGroup]="form" (ngSubmit)="submit()">
+<form (submit)="submit($event)" novalidate>
   <h2>Inscription</h2>
 
-  <input type="text" formControlName="username" placeholder="Nom d'utilisateur" />
-  <input type="email" formControlName="email" placeholder="Email" />
-  <input type="password" formControlName="password" placeholder="Mot de passe" />
+  <input type="text" [formField]="registerForm.username" placeholder="Nom d'utilisateur" />
+  @for (e of registerForm.username().errors(); track e.kind) {
+    <p class="error">{{ e.message }}</p>
+  }
+
+  <input type="email" [formField]="registerForm.email" placeholder="Email" />
+  @for (e of registerForm.email().errors(); track e.kind) {
+    <p class="error">{{ e.message }}</p>
+  }
+
+  <input type="password" [formField]="registerForm.password" placeholder="Mot de passe" />
+  @for (e of registerForm.password().errors(); track e.kind) {
+    <p class="error">{{ e.message }}</p>
+  }
 
   @if (onError()) {
     <p class="error">Une erreur est survenue, réessaie.</p>
   }
 
-  <button type="submit" [disabled]="form.invalid">S'inscrire</button>
+  <button type="submit" [disabled]="registerForm().invalid()">S'inscrire</button>
 </form>
