@@ -1,6 +1,6 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { LoginRequest } from '../../core/models/login-request';
 import { Auth } from '../../core/services/auth';
 
@@ -15,14 +15,14 @@ export class Login {
   private auth = inject(Auth);
   private router = inject(Router);
 
-  public onError = signal(false);
+  onError = signal(false);
 
-  public form = this.fb.nonNullable.group({
+  form = this.fb.nonNullable.group({
     identifier: ['', [Validators.required]],
     password: ['', [Validators.required]],
   });
 
-  public submit(): void {
+  submit(): void {
     if (this.form.invalid) return;
 
     const loginRequest = this.form.getRawValue() as LoginRequest;

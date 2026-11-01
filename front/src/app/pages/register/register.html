@@ -5,7 +5,7 @@
   <input type="email" formControlName="email" placeholder="Email" />
   <input type="password" formControlName="password" placeholder="Mot de passe" />
 
-  @if (onError) {
+  @if (onError()) {
     <p class="error">Une erreur est survenue, réessaie.</p>
   }
 

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../../core/services/auth';
@@ -16,9 +16,9 @@ export class Register {
   private auth = inject(Auth);
   private router = inject(Router);
 
-  public onError = false;
+  onError = signal(false);
   
-  public form = this.fb.group({
+  form = this.fb.nonNullable.group({
     username: ['', [Validators.required, Validators.maxLength(50)]],
     email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
     password: [
@@ -32,16 +32,14 @@ export class Register {
     ],
   });
 
-  public submit(): void {
+  submit(): void {
     if (this.form.invalid) return;
 
     const registerRequest = this.form.getRawValue() as RegisterRequest;
 
     this.auth.register(registerRequest).subscribe({
-      next: (session: JwtResponse) => {
-        this.router.navigate(['/articles']);
-      },
-      error: () => (this.onError = true),
+      next: () => this.router.navigate(['/articles']),
+      error: () => this.onError.set(true),
     });
   }
 }

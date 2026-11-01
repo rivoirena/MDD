@@ -6,9 +6,10 @@
 
   <label for="password">Mot de passe</label>
   <input id="password" type="password" formControlName="password" />
-@if (onError()) {
-  <p class="error">Identifiants incorrects.</p>
-}
+  
+  @if (onError()) {
+    <p class="error">Identifiants incorrects.</p>
+  }
 
   <button type="submit" [disabled]="form.invalid">Se connecter</button>
 </form>
