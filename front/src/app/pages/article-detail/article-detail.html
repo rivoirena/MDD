@@ -7,7 +7,8 @@
 <section>
   <h2>Commentaires</h2>
 
-  @for (comment of comments(); track comment.id) {
+
+  @for (comment of comments.value() ?? []; track comment.id) {
     <div class="comment">
       <p>{{ comment.content }}</p>
       <small>{{ comment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
@@ -15,4 +16,16 @@
   } @empty {
     <p>Aucun commentaire pour le moment.</p>
   }
+
+  <form (submit)="onSubmit($event)" novalidate>
+    <textarea [formField]="commentForm.content" placeholder="Écrivez votre commentaire ici"></textarea>
+
+    @if (commentForm.content().touched() && commentForm.content().invalid()) {
+      @for (error of commentForm.content().errors(); track error.kind) {
+        <small class="error">{{ error.message }}</small>
+      }
+    }
+
+    <button type="submit" [disabled]="commentForm().invalid()">Envoyer</button>
+  </form>
 </section>

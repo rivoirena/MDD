@@ -13,4 +13,8 @@ export class CommentService {
   getCommentsByArticleId(articleId: number): Observable<Comment[]> {
     return this.http.get<Comment[]>(`${this.baseUrl}/${articleId}/comments`);
   }
+
+  createComment(articleId: number, content: string): Observable<Comment> {
+    return this.http.post<Comment>(`${this.baseUrl}/${articleId}/comments`, { content });
+  }
 }
