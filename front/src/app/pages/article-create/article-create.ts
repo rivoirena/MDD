@@ -6,7 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { ArticleService } from '../../core/services/article.service';
+import { ArticleApi } from '../../core/services/article-api';
 import { ThemeApi } from '../../core/services/theme-api';
 
 @Component({
@@ -16,7 +16,7 @@ import { ThemeApi } from '../../core/services/theme-api';
   styleUrl: './article-create.scss',
 })
 export class ArticleCreate {
-  private articleService = inject(ArticleService);
+  private articleService = inject(ArticleApi);
   private themeApi = inject(ThemeApi);
   private router = inject(Router);
 

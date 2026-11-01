@@ -1,8 +1,8 @@
 import { Component, inject, input, signal } from '@angular/core';
 import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
 import { switchMap } from 'rxjs';
-import { ArticleService } from '../../core/services/article.service';
-import { CommentService } from '../../core/services/comment.service';
+import { ArticleApi } from '../../core/services/article-api';
+import { CommentApi } from '../../core/services/comment-api';
 import { DatePipe } from '@angular/common';
 import { form, FormField, required, submit } from '@angular/forms/signals';
 
@@ -13,8 +13,8 @@ import { form, FormField, required, submit } from '@angular/forms/signals';
   styleUrl: './article-detail.scss',
 })
 export class ArticleDetail {
-  private articleService = inject(ArticleService);
-  private commentService = inject(CommentService);
+  private articleService = inject(ArticleApi);
+  private commentService = inject(CommentApi);
 
   id = input.required<string>();
 

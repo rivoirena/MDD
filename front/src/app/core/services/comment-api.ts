@@ -6,7 +6,7 @@ import { Comment } from '../models/comment';
 import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class CommentService {
+export class CommentApi {
   private http = inject(HttpClient);
     private readonly baseUrl = `${environment.apiUrl}/articles`;
 

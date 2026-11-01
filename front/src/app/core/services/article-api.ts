@@ -8,7 +8,7 @@ import { Article } from '../models/article';
 import { CreateArticleRequest } from '../models/create-article-request';
 
 @Injectable({ providedIn: 'root' })
-export class ArticleService {
+export class ArticleApi {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/articles`;
 
