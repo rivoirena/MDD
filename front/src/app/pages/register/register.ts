@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../../core/services/auth';
-import { RegisterRequest } from '../../core/models/register-request.interface';
-import { JwtResponse } from '../../core/models/jwt-response.interface';
+import { RegisterRequest } from '../../core/models/register-request';
+import { JwtResponse } from '../../core/models/jwt-response';
 
 @Component({
   selector: 'app-register',
