@@ -2,13 +2,15 @@ package com.mdd.controllers;
 
 import com.mdd.dto.ArticleDto;
 import com.mdd.mapper.ArticleMapper;
+import com.mdd.models.Article;
+import com.mdd.payload.request.CreateArticleRequest;
 import com.mdd.services.ArticleService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +32,12 @@ public class ArticleController {
         return articleService.findById(id)
                 .map(article -> ResponseEntity.ok(articleMapper.toDto(article)))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<ArticleDto> create(@Valid @RequestBody CreateArticleRequest request,
+                                             @AuthenticationPrincipal String email) {
+        Article created = articleService.create(request, email);
+        return ResponseEntity.status(HttpStatus.CREATED).body(articleMapper.toDto(created));
     }
 }
