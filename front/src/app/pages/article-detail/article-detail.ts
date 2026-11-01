@@ -1,6 +1,5 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { ArticleApi } from '../../core/services/article-api';
 import { CommentApi } from '../../core/services/comment-api';
 import { DatePipe } from '@angular/common';
@@ -13,20 +12,20 @@ import { form, FormField, required, submit } from '@angular/forms/signals';
   styleUrl: './article-detail.scss',
 })
 export class ArticleDetail {
-  private articleService = inject(ArticleApi);
-  private commentService = inject(CommentApi);
+  private articleApi = inject(ArticleApi);
+  private commentApi = inject(CommentApi);
 
   id = input.required<string>();
 
-  article = toSignal(
-    toObservable(this.id).pipe(
-      switchMap((id) => this.articleService.getArticleById(Number(id)))
-    )
-  );
+  article = rxResource({
+    params: () => Number(this.id()),
+    stream: ({ params }) => this.articleApi.getArticleById(params),
+  });
 
   comments = rxResource({
     params: () => Number(this.id()),
-    stream: ({ params }) => this.commentService.getCommentsByArticleId(params),
+    stream: ({ params }) => this.commentApi.getCommentsByArticleId(params),
+    defaultValue: [],
   });
 
   model = signal({ content: '' });
@@ -42,7 +41,7 @@ export class ArticleDetail {
       const { content } = this.model();
 
       return new Promise<void>((resolve) => {
-        this.commentService.createComment(Number(this.id()), content).subscribe({
+        this.commentApi.createComment(Number(this.id()), content).subscribe({
           next: () => {
             this.model.set({ content: '' });
             this.commentForm().reset();
