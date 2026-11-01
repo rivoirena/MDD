@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { ArticleApi } from '../../core/services/article-api';
 import { ThemeApi } from '../../core/services/theme-api';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-article-create',
@@ -51,7 +52,7 @@ export class ArticleCreate {
 
     this.articleService.create({ themeId: themeId!, title, content }).subscribe({
       next: () => this.router.navigate(['/articles']),
-      error: (err) =>
+      error: (err: HttpErrorResponse) =>
         this.errorMessage.set(err.error?.message ?? "Erreur lors de la création de l'article"),
     });
   }
