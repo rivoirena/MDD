@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
-import { RegisterRequest } from '../models/registerRequest.interface';
-import { JwtResponse } from '../models/jwtResponse.interface';
+import { RegisterRequest } from '../models/register-request.interface';
+import { JwtResponse } from '../models/jwt-response.interface';
 import { environment } from '../../../environments/environment';
-import { LoginRequest } from '../models/loginRequest.interface';
+import { LoginRequest } from '../models/login-request.interface';
 
 @Injectable({ providedIn: 'root' })
 export class Auth {

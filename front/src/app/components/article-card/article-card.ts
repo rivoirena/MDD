@@ -1,7 +1,7 @@
 import { Component, input } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { Article } from '../../core/models/article.interface';
+import { Article } from '../../core/models/article';
 import { RouterLink } from '@angular/router';
 
 @Component({
