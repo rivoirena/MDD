@@ -5,16 +5,23 @@ import { CommentApi } from '../../core/services/comment-api';
 import { DatePipe } from '@angular/common';
 import { form, FormField, required, submit } from '@angular/forms/signals';
 import { firstValueFrom } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatDividerModule } from '@angular/material/divider';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-article-detail',
-  imports: [DatePipe, FormField],
+  imports: [DatePipe, FormField, MatButtonModule, MatDividerModule, MatFormFieldModule, MatIconModule, MatInputModule],
   templateUrl: './article-detail.html',
   styleUrl: './article-detail.scss',
 })
 export class ArticleDetail {
   private articleApi = inject(ArticleApi);
   private commentApi = inject(CommentApi);
+  private router = inject(Router);
 
   id = input.required<number, string>({ transform: numberAttribute });
 
@@ -43,5 +50,9 @@ export class ArticleDetail {
       this.commentForm().reset({ content: '' });
       this.comments.reload();
     });
+  }
+
+  back(): void {
+    this.router.navigate(['/articles']);
   }
 }
