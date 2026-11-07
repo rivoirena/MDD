@@ -1,0 +1,12 @@
+.logo-mobile {
+  display: block;
+  margin: 1.5rem auto;
+  width: clamp(120px, 40vw, 200px);
+  height: auto;
+}
+
+@media (min-width: 600px) {
+  .logo-mobile {
+    display: none;
+  }
+}
