@@ -1,9 +1,22 @@
-<mat-card class="article-card">
-  <h3 class="title">{{ article().title }}</h3>
-  <div class="meta">
-    <span>{{ article().createdAt | date: 'dd/MM/yyyy' }}</span>
-    <span>{{ article().authorId }}</span>
-  </div>
-  <p class="content">{{ article().content }}</p>
-  <a [routerLink]="['/articles', article().id]">Lire la suite</a>
+<mat-card appearance="filled">
+  <a [routerLink]="['/articles', article().id]">
+    <mat-card-header>
+      <mat-card-title>{{ article().title }}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+      <dl>
+        <div>
+          <dt class="visually-hidden">Date</dt>
+          <dd>{{ article().createdAt | date: 'dd/MM/yyyy' }}</dd>
+        </div>
+        <div>
+          <dt class="visually-hidden">Auteur</dt>
+          <dd>{{ article().authorId }}</dd>
+        </div>
+      </dl>
+
+      <p>{{ article().content }}</p>
+    </mat-card-content>
+  </a>
 </mat-card>

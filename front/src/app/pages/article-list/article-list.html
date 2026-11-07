@@ -1,5 +1,23 @@
-<div class="articles-grid">
-  @for (article of articles.value(); track article.id) {
-    <app-article-card [article]="article" />
-  }
-</div>
+<main>
+  <header>
+    <a mat-flat-button routerLink="/articles/new">Créer un article</a>
+
+    <button mat-button type="button" [matMenuTriggerFor]="sortMenu">
+      Trier par
+      <mat-icon iconPositionEnd>arrow_downward</mat-icon>
+    </button>
+
+    <mat-menu #sortMenu="matMenu">
+      <button mat-menu-item type="button">Plus récents</button>
+      <button mat-menu-item type="button">Plus anciens</button>
+    </mat-menu>
+  </header>
+
+  <ul>
+    @for (article of articles.value(); track article.id) {
+      <li>
+        <app-article-card [article]="article" />
+      </li>
+    }
+  </ul>
+</main>
