@@ -1,13 +1,24 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { LoginRequest } from '../../core/models/login-request';
 import { Auth } from '../../core/services/auth';
 import { form, FormField, required } from '@angular/forms/signals';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-login',
-  imports: [FormField],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    FormField,
+  ],
   templateUrl: './login.html',
   styleUrl: './login.scss',
 })

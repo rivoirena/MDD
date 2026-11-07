@@ -1,15 +1,33 @@
-<form (submit)="submit($event)" novalidate>
-  <h1>Connexion</h1>
+<main>
+  <a mat-icon-button routerLink="/" aria-label="Retour">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
 
-  <label for="identifier">Nom d'utilisateur ou e-mail</label>
-  <input id="identifier" type="text" [formField]="loginForm.identifier" />
+  <img class="logo" src="assets/logo_p6.png" alt="MDD" />
 
-  <label for="password">Mot de passe</label>
-  <input id="password" type="password" [formField]="loginForm.password" />
+  <form (submit)="submit($event)" novalidate>
+    <h1>Se connecter</h1>
 
-  @if (onError()) {
-    <p class="error">Identifiants incorrects.</p>
-  }
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail ou nom d'utilisateur</mat-label>
+      <input matInput type="text" autocomplete="username" [formField]="loginForm.identifier" />
+      @for (e of loginForm.identifier().errors(); track e.kind) {
+        <mat-error>{{ e.message }}</mat-error>
+      }
+    </mat-form-field>
 
-  <button type="submit" [disabled]="loginForm().invalid()">Se connecter</button>
-</form>
+    <mat-form-field appearance="outline">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" autocomplete="current-password" [formField]="loginForm.password" />
+      @for (e of loginForm.password().errors(); track e.kind) {
+        <mat-error>{{ e.message }}</mat-error>
+      }
+    </mat-form-field>
+
+    @if (onError()) {
+      <p class="error" role="alert">Identifiants incorrects.</p>
+    }
+
+    <button mat-flat-button type="submit" [disabled]="loginForm().invalid()">Se connecter</button>
+  </form>
+</main>
