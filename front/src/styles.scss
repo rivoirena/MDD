@@ -40,8 +40,10 @@ body {
 
 html {
   @include mat.button-overrides((
+    filled-container-shape: 8px,
     outlined-container-shape: 8px,
     outlined-outline-color: #000,
     outlined-label-text-color: #000,
+    filled-container-color: #7763c5,
   ));
 }
