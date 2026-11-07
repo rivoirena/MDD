@@ -9,10 +9,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { ArticleApi } from '../../core/services/article-api';
 import { ThemeApi } from '../../core/services/theme-api';
 import { HttpErrorResponse } from '@angular/common/http';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-article-create',
-  imports: [FormField, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule],
+  imports: [FormField, MatFormFieldModule, MatIconModule, MatInputModule, MatSelectModule, MatButtonModule],
   templateUrl: './article-create.html',
   styleUrl: './article-create.scss',
 })

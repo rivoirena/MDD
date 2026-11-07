@@ -1,39 +1,43 @@
-<button type="button" (click)="back()" aria-label="Retour">←</button>
+<main>
+  <button mat-icon-button type="button" (click)="back()" aria-label="Retour">
+    <mat-icon>arrow_back</mat-icon>
+  </button>
 
-<h1>Créer un nouvel article</h1>
+  <h1>Créer un nouvel article</h1>
 
-<form (submit)="create($event)" novalidate>
-  <mat-form-field appearance="outline">
-    <mat-label>Sélectionner un thème</mat-label>
-    <mat-select [formField]="articleForm.themeId">
-      @for (theme of themes.value() ?? []; track theme.id) {
-        <mat-option [value]="theme.id">{{ theme.title }}</mat-option>
+  <form (submit)="create($event)" novalidate>
+    <mat-form-field appearance="outline">
+      <mat-label>Sélectionner un thème</mat-label>
+      <mat-select [formField]="articleForm.themeId">
+        @for (theme of themes.value() ?? []; track theme.id) {
+          <mat-option [value]="theme.id">{{ theme.title }}</mat-option>
+        }
+      </mat-select>
+      @for (e of articleForm.themeId().errors(); track e.kind) {
+        <mat-error>{{ e.message }}</mat-error>
       }
-    </mat-select>
-    @for (e of articleForm.themeId().errors(); track e.kind) {
-      <mat-error>{{ e.message }}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Titre de l'article</mat-label>
+      <input matInput type="text" [formField]="articleForm.title" />
+      @for (e of articleForm.title().errors(); track e.kind) {
+        <mat-error>{{ e.message }}</mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Contenu de l'article</mat-label>
+      <textarea matInput rows="10" [formField]="articleForm.content"></textarea>
+      @for (e of articleForm.content().errors(); track e.kind) {
+        <mat-error>{{ e.message }}</mat-error>
+      }
+    </mat-form-field>
+
+    @if (errorMessage()) {
+      <p class="error" role="alert">{{ errorMessage() }}</p>
     }
-  </mat-form-field>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Titre de l'article</mat-label>
-    <input matInput [formField]="articleForm.title" />
-    @for (e of articleForm.title().errors(); track e.kind) {
-      <mat-error>{{ e.message }}</mat-error>
-    }
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Contenu de l'article</mat-label>
-    <textarea matInput rows="10" [formField]="articleForm.content"></textarea>
-    @for (e of articleForm.content().errors(); track e.kind) {
-      <mat-error>{{ e.message }}</mat-error>
-    }
-  </mat-form-field>
-
-  @if (errorMessage()) {
-    <p class="error">{{ errorMessage() }}</p>
-  }
-
-  <button mat-flat-button type="submit" [disabled]="articleForm().invalid()">Créer</button>
-</form>
+    <button mat-flat-button type="submit" [disabled]="articleForm().invalid()">Créer</button>
+  </form>
+</main>
