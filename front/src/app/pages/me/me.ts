@@ -1,13 +1,12 @@
 import { Component, computed, inject, linkedSignal, signal } from '@angular/core';
-import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
 import { form, FormField, required, email, pattern, validate } from '@angular/forms/signals';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { UserApi } from '../../core/services/user-api';
 import { ThemeCard } from '../../components/theme-card/theme-card';
-import { SubscriptionApi } from '../../core/services/subsciption-api';
+import { SubscriptionApi } from '../../core/services/subscription-api';
 import { Theme } from '../../core/models/theme';
 
 @Component({
@@ -20,23 +19,23 @@ export class Me {
   private userApi = inject(UserApi);
   private subscriptionApi = inject(SubscriptionApi);
 
-  private refresh = signal(0);
-
-  user = toSignal(toObservable(this.refresh).pipe(switchMap(() => this.userApi.loadProfile())));
+  user = rxResource({
+    stream: () => this.userApi.loadProfile(),
+  });
 
   subscriptions = rxResource({
     stream: () => this.subscriptionApi.getSubscriptions(),
+    defaultValue: [],
   });
 
-  // Se réinitialise automatiquement à chaque nouveau profil chargé
   model = linkedSignal(() => ({
-    username: this.user()?.username ?? '',
-    email: this.user()?.email ?? '',
+    username: this.user.value()?.username ?? '',
+    email: this.user.value()?.email ?? '',
     password: '',
   }));
 
   hasChanges = computed(() => {
-    const current = this.user();
+    const current = this.user.value();
     const { username, email, password } = this.model();
     return username !== current?.username || email !== current?.email || password !== '';
   });
@@ -70,7 +69,7 @@ export class Me {
     if (this.profileForm().invalid() || !this.hasChanges()) return;
 
     const { username, email, password } = this.model();
-    const current = this.user();
+    const current = this.user.value();
 
     this.errorMessage.set('');
     this.successMessage.set('');
@@ -84,7 +83,7 @@ export class Me {
       .subscribe({
         next: () => {
           this.successMessage.set('Profil mis à jour');
-          this.refresh.update((n) => n + 1); // recharge le profil
+          this.user.reload();
         },
         error: (err) =>
           this.errorMessage.set(err.error?.message ?? 'Erreur lors de la mise à jour'),

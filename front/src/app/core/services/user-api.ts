@@ -3,7 +3,7 @@ import { Injectable, inject, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { User } from '../models/user';
 import { UpdateProfileRequest } from '../models/update-profile-request';
-import { JwtResponse } from '../models/jwtResponse.interface';
+import { JwtResponse } from '../models/jwt-response';
 import { Theme } from '../models/theme';
 
 @Injectable({ providedIn: 'root' })

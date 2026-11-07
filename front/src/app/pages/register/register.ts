@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject, signal } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Auth } from '../../core/services/auth';
-import { RegisterRequest } from '../../core/models/registerRequest.interface';
-import { JwtResponse } from '../../core/models/jwtResponse.interface';
+import { RegisterRequest } from '../../core/models/register-request';
+import { email, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-register',
-  imports: [ReactiveFormsModule],
+  imports: [FormField],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })
@@ -16,32 +16,35 @@ export class Register {
   private auth = inject(Auth);
   private router = inject(Router);
 
-  public onError = false;
-  
-  public form = this.fb.group({
-    username: ['', [Validators.required, Validators.maxLength(50)]],
-    email: ['', [Validators.required, Validators.email, Validators.maxLength(255)]],
-    password: [
-      '',
-      [
-        Validators.required,
-        Validators.minLength(8),
-        Validators.maxLength(40),
-        Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/),
-      ],
-    ],
+  onError = signal(false);
+
+  model = signal<RegisterRequest>({ username: '', email: '', password: '' });
+
+  registerForm = form(this.model, (p) => {
+    required(p.username, { message: "Nom d'utilisateur requis" });
+    maxLength(p.username, 50, { message: '50 caractères maximum' });
+
+    required(p.email, { message: 'Email requis' });
+    email(p.email, { message: 'Email invalide' });
+    maxLength(p.email, 255, { message: '255 caractères maximum' });
+
+    required(p.password, { message: 'Mot de passe requis' });
+    minLength(p.password, 8, { message: '8 caractères minimum' });
+    maxLength(p.password, 40, { message: '40 caractères maximum' });
+    pattern(p.password, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).+$/, {
+      message: 'Une minuscule, une majuscule, un chiffre et un caractère spécial',
+    });
   });
 
-  public submit(): void {
-    if (this.form.invalid) return;
+  submit(event: Event): void {
+    event.preventDefault();
+    if (this.registerForm().invalid()) return;
 
-    const registerRequest = this.form.getRawValue() as RegisterRequest;
+    this.onError.set(false);
 
-    this.auth.register(registerRequest).subscribe({
-      next: (session: JwtResponse) => {
-        this.router.navigate(['/articles']);
-      },
-      error: () => (this.onError = true),
+    this.auth.register(this.model()).subscribe({
+      next: () => this.router.navigate(['/articles']),
+      error: () => this.onError.set(true),
     });
   }
 }

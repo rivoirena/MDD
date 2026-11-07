@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { SubsciptionApi } from './subsciption-api';
+import { SubscriptionApi } from './subscription-api';
 
 describe('SubsciptionApi', () => {
-  let service: SubsciptionApi;
+  let service: SubscriptionApi;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(SubsciptionApi);
+    service = TestBed.inject(SubscriptionApi);
   });
 
   it('should be created', () => {

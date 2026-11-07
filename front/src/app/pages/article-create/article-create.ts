@@ -6,8 +6,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { ArticleService } from '../../core/services/article.service';
+import { ArticleApi } from '../../core/services/article-api';
 import { ThemeApi } from '../../core/services/theme-api';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-article-create',
@@ -16,7 +17,7 @@ import { ThemeApi } from '../../core/services/theme-api';
   styleUrl: './article-create.scss',
 })
 export class ArticleCreate {
-  private articleService = inject(ArticleService);
+  private articleService = inject(ArticleApi);
   private themeApi = inject(ThemeApi);
   private router = inject(Router);
 
@@ -51,7 +52,7 @@ export class ArticleCreate {
 
     this.articleService.create({ themeId: themeId!, title, content }).subscribe({
       next: () => this.router.navigate(['/articles']),
-      error: (err) =>
+      error: (err: HttpErrorResponse) =>
         this.errorMessage.set(err.error?.message ?? "Erreur lors de la création de l'article"),
     });
   }

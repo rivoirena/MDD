@@ -1,10 +1,10 @@
-import { Component, inject, input, signal } from '@angular/core';
-import { rxResource, toObservable, toSignal } from '@angular/core/rxjs-interop';
-import { switchMap } from 'rxjs';
-import { ArticleService } from '../../core/services/article.service';
-import { CommentService } from '../../core/services/comment.service';
+import { Component, inject, input, numberAttribute, signal } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { ArticleApi } from '../../core/services/article-api';
+import { CommentApi } from '../../core/services/comment-api';
 import { DatePipe } from '@angular/common';
 import { form, FormField, required, submit } from '@angular/forms/signals';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-article-detail',
@@ -13,45 +13,35 @@ import { form, FormField, required, submit } from '@angular/forms/signals';
   styleUrl: './article-detail.scss',
 })
 export class ArticleDetail {
-  private articleService = inject(ArticleService);
-  private commentService = inject(CommentService);
+  private articleApi = inject(ArticleApi);
+  private commentApi = inject(CommentApi);
 
-  id = input.required<string>();
+  id = input.required<number, string>({ transform: numberAttribute });
 
-  article = toSignal(
-    toObservable(this.id).pipe(
-      switchMap((id) => this.articleService.getArticleById(Number(id)))
-    )
-  );
+  article = rxResource({
+    params: () => this.id(),
+    stream: ({ params }) => this.articleApi.getArticleById(params),
+  });
 
   comments = rxResource({
-    params: () => Number(this.id()),
-    stream: ({ params }) => this.commentService.getCommentsByArticleId(params),
+    params: () => this.id(),
+    stream: ({ params }) => this.commentApi.getCommentsByArticleId(params),
+    defaultValue: [],
   });
 
   model = signal({ content: '' });
 
   commentForm = form(this.model, (p) => {
-    required(p.content, { message: 'Le commentaire ne peut pas ĂŞtre vide' });
+    required(p.content, { message: 'Le commentaire ne peut pas être vide' });
   });
 
   onSubmit(event: Event) {
     event.preventDefault();
 
     submit(this.commentForm, async () => {
-      const { content } = this.model();
-
-      return new Promise<void>((resolve) => {
-        this.commentService.createComment(Number(this.id()), content).subscribe({
-          next: () => {
-            this.model.set({ content: '' });
-            this.commentForm().reset();
-            this.comments.reload();
-            resolve();
-          },
-          error: () => resolve(),
-        });
-      });
+      await firstValueFrom(this.commentApi.createComment(this.id(), this.model().content));
+      this.commentForm().reset({ content: '' });
+      this.comments.reload();
     });
   }
 }

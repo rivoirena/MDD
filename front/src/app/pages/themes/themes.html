@@ -2,7 +2,7 @@
 <h1>Thèmes</h1>
 
 <div class="themes-grid">
-  @for (theme of themes(); track theme.id) {
+  @for (theme of themes.value(); track theme.id) {
     <app-theme-card
       [theme]="theme"
       [actionLabel]="theme.subscribed ? 'Déjà abonné' : 'S\'abonner'"

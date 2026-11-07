@@ -1,4 +1,4 @@
-@if (article(); as article) {
+@if (article.value(); as article) {
   <h1>{{ article.title }}</h1>
   <p>{{ article.content }}</p>
 }
@@ -8,7 +8,7 @@
   <h2>Commentaires</h2>
 
 
-  @for (comment of comments.value() ?? []; track comment.id) {
+  @for (comment of comments.value(); track comment.id) {
     <div class="comment">
       <p>{{ comment.content }}</p>
       <small>{{ comment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>

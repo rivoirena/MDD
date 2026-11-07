@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { toSignal } from '@angular/core/rxjs-interop';
+import { rxResource } from '@angular/core/rxjs-interop';
 
 import { ArticleCard } from '../../components/article-card/article-card';
-import { ArticleService } from '../../core/services/article.service';
+import { ArticleApi } from '../../core/services/article-api';
 
 @Component({
   selector: 'app-article-list',
@@ -11,7 +11,10 @@ import { ArticleService } from '../../core/services/article.service';
   styleUrl: './article-list.scss',
 })
 export class ArticleList {
-  private readonly articleService = inject(ArticleService);
+  private readonly articleApi = inject(ArticleApi);
 
-  articles = toSignal(this.articleService.getAll(), { initialValue: [] });
+  articles = rxResource({
+    stream: () => this.articleApi.getAll(),
+    defaultValue: [],
+  });
 }
