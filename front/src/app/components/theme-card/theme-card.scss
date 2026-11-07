@@ -1,0 +1,25 @@
+:host {
+  display: block;
+  height: 100%;
+}
+
+mat-card {
+  height: 100%;
+}
+
+mat-card-header {
+  margin-block-end: 1rem;
+}
+
+p {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+  margin: 0;
+}
+
+mat-card-actions {
+  justify-content: center;
+}
