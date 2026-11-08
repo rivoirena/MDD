@@ -14,6 +14,8 @@ public class ArticleDto {
     private String title;
     private String content;
     private Long authorId;
+    private String authorName;
     private Long themeId;
+    private String themeName;
     private LocalDateTime createdAt;
 }
