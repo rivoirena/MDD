@@ -21,6 +21,10 @@ ul {
   list-style: none;
 }
 
+header button[mat-button] {
+  --mat-button-text-label-text-color: black;
+}
+
 @media (min-width: 600px) {
   header {
     flex-direction: row;
