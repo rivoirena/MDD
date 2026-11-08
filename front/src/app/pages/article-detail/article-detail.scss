@@ -95,7 +95,12 @@ form {
   button {
     --mat-icon-button-state-layer-size: 3.5rem;
     --mat-icon-button-icon-size: 2.25rem;
-    color: var(--mat-sys-primary);
+    color: #6c5ccf;
+
+    &:disabled {
+      color: rgb(0 0 0 / 0.26);
+      cursor: not-allowed;
+    }
 
     mat-icon {
       width: 2.25rem;
