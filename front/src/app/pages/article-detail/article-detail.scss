@@ -95,7 +95,7 @@ form {
   button {
     --mat-icon-button-state-layer-size: 3.5rem;
     --mat-icon-button-icon-size: 2.25rem;
-    color: #6c5ccf;
+    color:  var(--mat-sys-primary);
 
     &:disabled {
       color: rgb(0 0 0 / 0.26);
