@@ -10,13 +10,15 @@ import { ArticleCreate } from './pages/article-create/article-create';
 import { Home } from './pages/home/home';
 import { PublicLayout } from './layout/public-layout/public-layout';
 import { AppLayout } from './layout/app-layout/app-layout';
+import { guestGuard } from './guards/guest-guard';
 
 
 
 export const routes: Routes = [
-  { path: '', component: Home, pathMatch: 'full' },
+  { path: '', component: Home, pathMatch: 'full', canActivate: [guestGuard] },
   {
     path: '',
+    canActivate: [guestGuard],
     component: PublicLayout,
     children: [
       { path: 'login', component: Login },
