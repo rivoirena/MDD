@@ -1,0 +1,19 @@
+mat-toolbar {
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+:host {
+  display: none;
+}
+
+img {
+  display: block;
+  height: 3rem;
+  width: auto;
+}
+
+@media (min-width: 600px) {
+  :host {
+    display: block;
+  }
+}

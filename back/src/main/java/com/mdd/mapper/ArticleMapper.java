@@ -11,7 +11,9 @@ import java.util.List;
 public interface ArticleMapper {
 
     @Mapping(source = "author.id", target = "authorId")
+    @Mapping(source = "author.username", target = "authorName")
     @Mapping(source = "theme.id", target = "themeId")
+    @Mapping(source = "theme.title", target = "themeName")
     ArticleDto toDto(Article article);
 
     List<ArticleDto> toDto(List<Article> articles);

@@ -1,0 +1,17 @@
+<mat-sidenav-container>
+  <mat-sidenav #drawer mode="over" position="end">
+    <nav>
+      <button mat-button class="logout" (click)="logout(); drawer.close()">Se déconnecter</button>
+      <a mat-button routerLink="/articles" (click)="drawer.close()">Articles</a>
+      <a mat-button routerLink="/themes" (click)="drawer.close()">Thèmes</a>
+      <a mat-icon-button routerLink="/me" aria-label="Mon profil" (click)="drawer.close()">
+        <mat-icon>person</mat-icon>
+      </a>
+    </nav>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <app-app-header (menuToggle)="drawer.toggle()" />
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>

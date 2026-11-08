@@ -1,0 +1,34 @@
+mat-toolbar {
+  justify-content: space-between;
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+}
+
+img {
+  display: block;
+  height: 3rem;
+  width: auto;
+}
+
+.desktop {
+  display: none;
+}
+
+.logout {
+  --mat-toolbar-container-text-color: var(--mat-sys-error);
+}
+
+.active {
+  color: var(--mat-sys-primary);
+}
+
+@media (min-width: 600px) {
+  .desktop {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .burger {
+    display: none;
+  }
+}

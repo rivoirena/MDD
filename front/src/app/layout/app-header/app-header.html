@@ -1,0 +1,16 @@
+<mat-toolbar>
+  <a routerLink="/articles"><img src="assets/logo_p6.png" alt="MDD" /></a>
+
+  <nav class="desktop">
+    <button mat-button class="logout" (click)="logout()">Se déconnecter</button>
+    <a mat-button routerLink="/articles" routerLinkActive="active">Articles</a>
+    <a mat-button routerLink="/themes" routerLinkActive="active">Thèmes</a>
+    <a mat-icon-button routerLink="/me" routerLinkActive="active" aria-label="Mon profil">
+      <mat-icon>person</mat-icon>
+    </a>
+  </nav>
+
+  <button mat-icon-button class="burger" (click)="menuToggle.emit()" aria-label="Menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>

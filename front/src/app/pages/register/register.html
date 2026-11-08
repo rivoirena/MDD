@@ -1,24 +1,41 @@
-<form (submit)="submit($event)" novalidate>
-  <h2>Inscription</h2>
+<main>
+  <a mat-icon-button routerLink="/" aria-label="Retour">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
 
-  <input type="text" [formField]="registerForm.username" placeholder="Nom d'utilisateur" />
-  @for (e of registerForm.username().errors(); track e.kind) {
-    <p class="error">{{ e.message }}</p>
-  }
+  <img class="logo" src="assets/logo_p6.png" alt="MDD" />
 
-  <input type="email" [formField]="registerForm.email" placeholder="Email" />
-  @for (e of registerForm.email().errors(); track e.kind) {
-    <p class="error">{{ e.message }}</p>
-  }
+  <form (submit)="submit($event)" novalidate>
+    <h1>Inscription</h1>
 
-  <input type="password" [formField]="registerForm.password" placeholder="Mot de passe" />
-  @for (e of registerForm.password().errors(); track e.kind) {
-    <p class="error">{{ e.message }}</p>
-  }
+    <mat-form-field appearance="outline">
+      <mat-label>Nom d'utilisateur</mat-label>
+      <input matInput type="text" autocomplete="username" [formField]="registerForm.username" />
+      @for (e of registerForm.username().errors(); track e.kind) {
+        <mat-error>{{ e.message }}</mat-error>
+      }
+    </mat-form-field>
 
-  @if (onError()) {
-    <p class="error">Une erreur est survenue, réessaie.</p>
-  }
+    <mat-form-field appearance="outline">
+      <mat-label>Adresse e-mail</mat-label>
+      <input matInput type="email" autocomplete="email" [formField]="registerForm.email" />
+      @for (e of registerForm.email().errors(); track e.kind) {
+        <mat-error>{{ e.message }}</mat-error>
+      }
+    </mat-form-field>
 
-  <button type="submit" [disabled]="registerForm().invalid()">S'inscrire</button>
-</form>
+    <mat-form-field appearance="outline">
+      <mat-label>Mot de passe</mat-label>
+      <input matInput type="password" autocomplete="new-password" [formField]="registerForm.password" />
+      @for (e of registerForm.password().errors(); track e.kind) {
+        <mat-error>{{ e.message }}</mat-error>
+      }
+    </mat-form-field>
+
+    @if (onError()) {
+      <p class="error" role="alert">Une erreur est survenue, réessaie.</p>
+    }
+
+    <button mat-flat-button type="submit" [disabled]="registerForm().invalid()">S'inscrire</button>
+  </form>
+</main>

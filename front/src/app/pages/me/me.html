@@ -1,51 +1,65 @@
-<h1>Profil utilisateur</h1>
+<main>
+  <section aria-labelledby="profile-title">
+    <h1 id="profile-title">Profil utilisateur</h1>
 
-<form (submit)="save($event)" novalidate>
-  <mat-form-field appearance="outline">
-    <mat-label>Nom d'utilisateur</mat-label>
-    <input matInput [formField]="profileForm.username" />
-    @for (e of profileForm.username().errors(); track e.kind) {
-      <mat-error>{{ e.message }}</mat-error>
+    <form (submit)="save($event)" novalidate>
+      <mat-form-field appearance="outline">
+        <mat-label>Nom d'utilisateur</mat-label>
+        <input matInput type="text" autocomplete="username" [formField]="profileForm.username" />
+        @for (e of profileForm.username().errors(); track e.kind) {
+          <mat-error>{{ e.message }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Adresse e-mail</mat-label>
+        <input matInput type="email" autocomplete="email" [formField]="profileForm.email" />
+        @for (e of profileForm.email().errors(); track e.kind) {
+          <mat-error>{{ e.message }}</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Mot de passe</mat-label>
+        <input matInput type="password" autocomplete="new-password" [formField]="profileForm.password" />
+        <mat-hint>Laisser vide pour ne pas le changer</mat-hint>
+        @for (e of profileForm.password().errors(); track e.kind) {
+          <mat-error>{{ e.message }}</mat-error>
+        }
+      </mat-form-field>
+
+      @if (errorMessage()) {
+        <p class="error" role="alert">{{ errorMessage() }}</p>
+      }
+      @if (successMessage()) {
+        <p class="success" role="status">{{ successMessage() }}</p>
+      }
+
+      <button mat-flat-button type="submit" [disabled]="profileForm().invalid() || !hasChanges()">
+        Sauvegarder
+      </button>
+    </form>
+  </section>
+
+  <mat-divider />
+
+  <section aria-labelledby="subscriptions-title">
+    <h2 id="subscriptions-title">Abonnements</h2>
+
+    @if (subscriptions.value()?.length) {
+      <ul>
+        @for (theme of subscriptions.value(); track theme.id) {
+          <li>
+            <app-theme-card
+              [theme]="theme"
+              actionLabel="Se désabonner"
+              (action)="unsubscribe($event)"
+            />
+          </li>
+        }
+      </ul>
+    } @else {
+      <p>Vous n'êtes abonné à aucun thème.</p>
     }
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Email</mat-label>
-    <input matInput type="email" [formField]="profileForm.email" />
-    @for (e of profileForm.email().errors(); track e.kind) {
-      <mat-error>{{ e.message }}</mat-error>
-    }
-  </mat-form-field>
-
-  <mat-form-field appearance="outline">
-    <mat-label>Mot de passe</mat-label>
-    <input matInput type="password" [formField]="profileForm.password" />
-    <mat-hint>Laisser vide pour ne pas le changer</mat-hint>
-    @for (e of profileForm.password().errors(); track e.kind) {
-      <mat-error>{{ e.message }}</mat-error>
-    }
-  </mat-form-field>
-
-  @if (errorMessage()) {
-    <p class="error">{{ errorMessage() }}</p>
-  }
-  @if (successMessage()) {
-    <p class="success">{{ successMessage() }}</p>
-  }
-
-  <button mat-flat-button type="submit" [disabled]="profileForm().invalid() || !this.hasChanges()">
-    Sauvegarder
-  </button>
-</form>
-
-<h2>Mes abonnements</h2>
-
-@for (theme of subscriptions.value(); track theme.id) {
-  <app-theme-card
-    [theme]="theme"
-    actionLabel="Se désabonner"
-    (action)="unsubscribe($event)"
-  />
-} @empty {
-  <p>Vous n'êtes abonné à aucun thème.</p>
-}
+  </section>
+</main>

@@ -1,13 +1,32 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../core/services/auth';
 import { RegisterRequest } from '../../core/models/register-request';
-import { email, form, FormField, maxLength, minLength, pattern, required } from '@angular/forms/signals';
+import {
+  email,
+  form,
+  FormField,
+  maxLength,
+  minLength,
+  pattern,
+  required,
+} from '@angular/forms/signals';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
   selector: 'app-register',
-  imports: [FormField],
+  imports: [
+    RouterLink,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    FormField,
+  ],
   templateUrl: './register.html',
   styleUrl: './register.scss',
 })

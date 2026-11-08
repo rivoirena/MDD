@@ -4,14 +4,15 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+@use './styles/mdd-theme' as mdd;
 
 html {
   height: 100%;
   @include mat.theme(
     (
       color: (
-        primary: mat.$azure-palette,
-        tertiary: mat.$blue-palette,
+        primary: mdd.$primary-palette,
+        tertiary: mdd.$tertiary-palette,
       ),
       typography: Roboto,
       density: 0,
@@ -37,3 +38,15 @@ body {
   height: 100%;
 }
 /* You can add global styles to this file, and also import other style files */
+
+html {
+  @include mat.button-overrides((
+    filled-container-shape: 8px,
+    filled-disabled-container-color: #999,
+    filled-disabled-label-text-color: #fff,
+    outlined-container-shape: 8px,
+    outlined-outline-color: #000,
+    outlined-label-text-color: #000,
+    filled-container-color: #7763c5,
+  ));
+}

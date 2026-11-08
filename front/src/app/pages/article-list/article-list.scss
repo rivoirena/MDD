@@ -1,13 +1,37 @@
-.articles-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
-  padding: 24px 72px;
+main {
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
 }
 
-@media (max-width: 768px) {
-  .articles-grid {
-    grid-template-columns: 1fr;
-    padding: 16px;
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-block-end: 1.5rem;
+}
+
+ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+header button[mat-button] {
+  --mat-button-text-label-text-color: black;
+}
+
+@media (min-width: 600px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  ul {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

@@ -1,0 +1,25 @@
+mat-sidenav-container {
+  height: 100dvh;
+}
+
+mat-sidenav {
+  width: min(80vw, 280px);
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1rem;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 1.5rem;
+}
+
+nav a:last-child {
+  margin-top: auto;
+}
+
+.logout {
+  --mat-button-text-label-text-color: var(--mat-sys-error);
+}

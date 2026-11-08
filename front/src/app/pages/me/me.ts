@@ -8,10 +8,18 @@ import { UserApi } from '../../core/services/user-api';
 import { ThemeCard } from '../../components/theme-card/theme-card';
 import { SubscriptionApi } from '../../core/services/subscription-api';
 import { Theme } from '../../core/models/theme';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-me',
-  imports: [FormField, MatFormFieldModule, MatInputModule, MatButtonModule, ThemeCard],
+  imports: [
+    MatButtonModule,
+    MatDividerModule,
+    MatFormFieldModule,
+    MatInputModule,
+    FormField,
+    ThemeCard,
+  ],
   templateUrl: './me.html',
   styleUrl: './me.scss',
 })

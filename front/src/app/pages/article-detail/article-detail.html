@@ -1,31 +1,63 @@
-@if (article.value(); as article) {
-  <h1>{{ article.title }}</h1>
-  <p>{{ article.content }}</p>
-}
+<main>
+  @if (article.value(); as article) {
+    <header>
+      <button mat-icon-button type="button" (click)="back()" aria-label="Retour">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <h1>{{ article.title }}</h1>
+    </header>
 
+    <dl class="meta">
+      <div>
+        <dt class="visually-hidden">Date</dt>
+        <dd>{{ article.createdAt | date: 'dd/MM/yyyy' }}</dd>
+      </div>
+      <div>
+        <dt class="visually-hidden">Auteur</dt>
+        <dd>{{ article.authorName }}</dd>
+      </div>
+      <div>
+        <dt class="visually-hidden">Thème</dt>
+        <dd>{{ article.themeName }}</dd>
+      </div>
+    </dl>
 
-<section>
-  <h2>Commentaires</h2>
-
-
-  @for (comment of comments.value(); track comment.id) {
-    <div class="comment">
-      <p>{{ comment.content }}</p>
-      <small>{{ comment.createdAt | date: 'dd/MM/yyyy HH:mm' }}</small>
-    </div>
-  } @empty {
-    <p>Aucun commentaire pour le moment.</p>
+    <p class="content">{{ article.content }}</p>
   }
 
-  <form (submit)="onSubmit($event)" novalidate>
-    <textarea [formField]="commentForm.content" placeholder="Écrivez votre commentaire ici"></textarea>
+  <mat-divider />
 
-    @if (commentForm.content().touched() && commentForm.content().invalid()) {
-      @for (error of commentForm.content().errors(); track error.kind) {
-        <small class="error">{{ error.message }}</small>
+  <section aria-labelledby="comments-title">
+    <h2 id="comments-title">Commentaires</h2>
+
+    <ul class="comments">
+      @for (comment of comments.value(); track comment.id) {
+        <li>
+          <span class="author">{{ comment.authorName }}</span>
+          <p>{{ comment.content }}</p>
+        </li>
+      } @empty {
+        <li class="empty">Aucun commentaire pour le moment.</li>
       }
-    }
+    </ul>
 
-    <button type="submit" [disabled]="commentForm().invalid()">Envoyer</button>
-  </form>
-</section>
+    <form (submit)="onSubmit($event)" novalidate>
+      <mat-form-field appearance="outline" subscriptSizing="dynamic">
+        <mat-label>Écrivez ici votre commentaire</mat-label>
+        <textarea matInput rows="4" [formField]="commentForm.content"></textarea>
+        @for (error of commentForm.content().errors(); track error.kind) {
+          <mat-error>{{ error.message }}</mat-error>
+        }
+      </mat-form-field>
+
+      <button
+        mat-icon-button
+        type="submit"
+        aria-label="Envoyer le commentaire"
+        [disabled]="commentForm().invalid()"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+    </form>
+  </section>
+</main>
