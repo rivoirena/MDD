@@ -9,6 +9,7 @@ import com.mdd.repository.ThemeRepository;
 import com.mdd.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,10 @@ public class ArticleService {
 
     public List<Article> findAll() {
         return articleRepository.findAll();
+    }
+
+    public List<Article> findForUser(String email, Sort.Direction direction) {
+        return articleRepository.findBySubscriber(email, Sort.by(direction, "createdAt"));
     }
 
     public Optional<Article> findById(Long id) {

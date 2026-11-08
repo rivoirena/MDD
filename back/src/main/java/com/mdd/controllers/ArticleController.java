@@ -7,6 +7,7 @@ import com.mdd.payload.request.CreateArticleRequest;
 import com.mdd.services.ArticleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,8 +24,11 @@ public class ArticleController {
     private final ArticleMapper articleMapper;
 
     @GetMapping
-    public ResponseEntity<List<ArticleDto>> findAll() {
-        return ResponseEntity.ok(articleMapper.toDto(articleService.findAll()));
+    public ResponseEntity<List<ArticleDto>> findAll(
+            @AuthenticationPrincipal String email,
+            @RequestParam(defaultValue = "desc") String sort) {
+        Sort.Direction direction = Sort.Direction.fromString(sort);
+        return ResponseEntity.ok(articleMapper.toDto(articleService.findForUser(email, direction)));
     }
 
     @GetMapping("/{id}")
