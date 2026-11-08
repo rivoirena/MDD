@@ -33,7 +33,7 @@
     <ul class="comments">
       @for (comment of comments.value(); track comment.id) {
         <li>
-          <span class="author">{{ comment.authorId }}</span>
+          <span class="author">{{ comment.authorName }}</span>
           <p>{{ comment.content }}</p>
         </li>
       } @empty {
