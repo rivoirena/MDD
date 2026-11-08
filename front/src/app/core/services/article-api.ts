@@ -12,14 +12,14 @@ export class ArticleApi {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/articles`;
 
-  getAll(): Observable<Article[]> {
-    return this.http.get<Article[]>(this.baseUrl);
+  getAll(sort: 'asc' | 'desc' = 'desc') {
+    return this.http.get<Article[]>(`${this.baseUrl}`, { params: { sort } });
   }
 
   getArticleById(id: number): Observable<Article> {
     return this.http.get<Article>(`${this.baseUrl}/${id}`);
   }
-  
+
   create(request: CreateArticleRequest): Observable<Article> {
     return this.http.post<Article>(this.baseUrl, request);
   }

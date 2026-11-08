@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 
 import { ArticleCard } from '../../components/article-card/article-card';
@@ -7,6 +7,8 @@ import { RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+
+type SortOrder = 'desc' | 'asc';
 
 @Component({
   selector: 'app-article-list',
@@ -17,8 +19,11 @@ import { MatMenuModule } from '@angular/material/menu';
 export class ArticleList {
   private readonly articleApi = inject(ArticleApi);
 
+  sortOrder = signal<SortOrder>('desc');
+
   articles = rxResource({
-    stream: () => this.articleApi.getAll(),
+    params: () => this.sortOrder(),
+    stream: ({ params }) => this.articleApi.getAll(params),
     defaultValue: [],
   });
 }
