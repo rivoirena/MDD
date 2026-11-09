@@ -118,7 +118,7 @@ L'application est **responsive** : elle s'adapte à l'ordinateur, à la tablette
 
 ```
 src/
-├── environnements/        # Configuration (URL de l'API)
+├── environments/        # Configuration (URL de l'API)
 └── app/
     ├── components/        # Composants réutilisables
     │   ├── article-card/
