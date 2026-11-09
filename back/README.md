@@ -59,6 +59,8 @@ Les informations sensibles ne sont **pas** écrites en dur : elles sont lues dep
 
 La durée de validité du token est définie par `jwt.expiration-ms` (86 400 000 ms, soit 24 h).
 
+> ⚠️ Si `JWT_SECRET` fait moins de 32 caractères, l'application refuse de démarrer
+> (la clé HMAC est trop courte).
 ### Définir les variables d'environnement
 
 **Windows (PowerShell)**, pour la session courante :
@@ -66,7 +68,7 @@ La durée de validité du token est définie par `jwt.expiration-ms` (86 400 000
 ```powershell
 $env:DB_USERNAME="root"
 $env:DB_PASSWORD="mon_mot_de_passe"
-$env:JWT_SECRET="ma_cle_secrete"
+$env:JWT_SECRET="une_cle_secrete_d_au_moins_32_caracteres"
 ```
 
 Pour les rendre permanentes : *Paramètres système avancés > Variables d'environnement*, ou `setx DB_USERNAME "root"` (puis rouvrir le terminal).
@@ -107,6 +109,13 @@ L'authentification repose sur **Spring Security** et des **JWT** (bibliothèque 
 1. L'utilisateur s'inscrit (`/api/auth/register`) ou se connecte (`/api/auth/login`) et reçoit un token.
 2. Le token doit ensuite être envoyé dans le header `Authorization: Bearer <token>` pour accéder aux routes protégées.
 
+Les routes `/api/auth/**` sont publiques ; toutes les autres renvoient `401` sans token valide.
+
+### CORS
+
+Seule l'origine `http://localhost:4200` (front Angular) est autorisée. Cette valeur est
+codée en dur dans `WebSecurityConfig#corsConfigurationSource()` : elle est à modifier si le
+front est servi depuis une autre adresse.
 ## Endpoints de l'API
 
 Toutes les routes sont préfixées par `/api`. Sauf mention contraire, elles nécessitent d'être authentifié.
