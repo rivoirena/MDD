@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Controller REST de consultation des thèmes.
+ */
 @RestController
 @RequestMapping("/api/themes")
 @RequiredArgsConstructor
@@ -18,6 +21,12 @@ public class ThemeController {
 
     private final ThemeService themeService;
 
+    /**
+     * Retourne la liste de tous les thèmes.
+     *
+     * @param email email de l'utilisateur connecté (extrait du JWT)
+     * @return la liste des thèmes (200)
+     */
     @GetMapping
     public ResponseEntity<List<ThemeResponse>> getAllThemes(
             @AuthenticationPrincipal String email) {

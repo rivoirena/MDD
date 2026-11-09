@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Controller REST de gestion du profil de l'utilisateur connecté.
+ */
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -22,11 +25,23 @@ public class UserController {
         this.userService = userService;
     }
 
+    /**
+     * Retourne le profil de l'utilisateur connecté.
+     *
+     * @param email email de l'utilisateur connecté (extrait du JWT)
+     * @return le profil (200)
+     */
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getProfile(@AuthenticationPrincipal String email) {
         return ResponseEntity.ok(userService.getProfile(email));
     }
 
+    /**
+     * Met à jour le profil de l'utilisateur connecté.
+     *
+     * @param email email de l'utilisateur connecté (extrait du JWT)
+     * @return un nouveau JWT reflétant le profil mis à jour (200)
+     */
     @PutMapping("/me")
     public ResponseEntity<JwtResponse> updateMe(@AuthenticationPrincipal String email,
                                 @Valid @RequestBody UpdateProfileRequest request) {
