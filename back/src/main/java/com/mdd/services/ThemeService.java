@@ -15,6 +15,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+/**
+ * Service de consultation des thèmes.
+ */
 @Service
 @RequiredArgsConstructor
 public class ThemeService {
@@ -23,7 +26,13 @@ public class ThemeService {
     private final UserRepository userRepository;
     private final ThemeMapper themeMapper;
 
-
+    /**
+     * Retourne tous les thèmes, chacun indiquant si l'utilisateur y est abonné.
+     *
+     * @param email email de l'utilisateur connecté
+     * @return la liste de tous les thèmes avec leur statut d'abonnement
+     * @throws EntityNotFoundException si l'utilisateur n'existe pas
+     */
     @Transactional(readOnly = true)
     public List<ThemeResponse> getAllThemes(String email) {
         User user = userRepository.findByEmail(email)

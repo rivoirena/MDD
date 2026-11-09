@@ -14,6 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Service d'authentification : inscription et connexion, avec émission d'un token JWT.
+ */
 @Service
 @RequiredArgsConstructor
 public class AuthService {
@@ -22,6 +25,14 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
 
+    /**
+     * Inscrit un nouvel utilisateur (mot de passe encodé) et retourne un token JWT.
+     *
+     * @param request données d'inscription (email, nom d'utilisateur, mot de passe)
+     * @return la réponse contenant le token JWT
+     * @throws EmailAlreadyExistsException    si l'email est déjà utilisé
+     * @throws UsernameAlreadyExistsException si le nom d'utilisateur est déjà utilisé
+     */
     @Transactional
     public JwtResponse register(RegisterRequest request) {
         if (userService.existsByEmail(request.getEmail())) {
@@ -42,6 +53,13 @@ public class AuthService {
         return new JwtResponse(jwtService.generateToken(savedUser));
     }
 
+    /**
+     * Authentifie un utilisateur par email ou nom d'utilisateur et retourne un token JWT.
+     *
+     * @param request identifiant (email ou nom d'utilisateur) et mot de passe
+     * @return la réponse contenant le token JWT
+     * @throws InvalidCredentialsException si l'identifiant est inconnu ou le mot de passe incorrect
+     */
     @Transactional(readOnly = true)
     public JwtResponse login(LoginRequest request) {
         User user = userService.findByEmailOrUsername(request.getIdentifier())
