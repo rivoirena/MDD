@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * Controller REST d'authentification (public).
+ */
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -22,11 +25,21 @@ public class AuthController {
         this.authService = authService;
     }
 
+    /**
+     * Inscrit un nouvel utilisateur.
+     *
+     * @return le JWT de l'utilisateur créé (201)
+     */
     @PostMapping("/register")
     public ResponseEntity<JwtResponse> registerUser(@Valid @RequestBody RegisterRequest registerRequest) {
         return ResponseEntity.status(HttpStatus.CREATED).body(authService.register(registerRequest));
     }
 
+    /**
+     * Authentifie un utilisateur.
+     *
+     * @return le JWT de l'utilisateur (200)
+     */
     @PostMapping("/login")
     public ResponseEntity<JwtResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         return ResponseEntity.ok(authService.login(loginRequest));

@@ -7,17 +7,22 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Corps de la requête de modification du profil ({@code PUT /api/users/me}).
+ * <p>
+ * Tous les champs sont optionnels : un champ à {@code null} reste inchangé.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class UpdateProfileRequest {
 
-    // null = inchangé
+    /** Nouvelle adresse email, ou {@code null} pour la conserver. */
     @Email
     @Size(max = 255)
     private String email;
 
-    // null = inchangé
+    /** Nouveau nom d'utilisateur, ou {@code null} pour le conserver. */
     @Size(min = 1, max = 50)
     @Pattern(
             regexp = "^[^@\\s]+$",
@@ -25,7 +30,10 @@ public class UpdateProfileRequest {
     )
     private String username;
 
-    // null = inchangé
+    /**
+     * Nouveau mot de passe en clair (mêmes règles que pour l'inscription),
+     * ou {@code null} pour le conserver.
+     */
     @Size(min = 8, max = 40)
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[^A-Za-z0-9]).+$",

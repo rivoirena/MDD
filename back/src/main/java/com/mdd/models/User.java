@@ -12,6 +12,12 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Entité JPA représentant un utilisateur de l'application.
+ * <p>
+ * Un utilisateur s'abonne à des {@link Theme} ; ces abonnements déterminent
+ * les articles affichés dans son fil d'actualité.
+ */
 @Entity
 @Table(name = "users")
 @EqualsAndHashCode(of = {"id"})
@@ -27,32 +33,38 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /** Adresse email, unique, utilisée pour se connecter. */
     @NotBlank
     @Email
     @Size(max = 255)
     @Column(nullable = false, unique = true)
     private String email;
 
+    /** Nom d'utilisateur affiché, unique (50 caractères maximum), utilisé pour se connecter.. */
     @NotBlank
     @Size(max = 50)
     @Column(nullable = false, unique = true)
     private String username;
 
-    // Contient le hash (BCrypt), jamais le mot de passe en clair.
-    // Pas de @Size(max = 255) ici : la validation du mot de passe en clair
-    // se fait sur le DTO d'inscription, pas sur l'entité.
+    /**
+     * Hash BCrypt du mot de passe (jamais le mot de passe en clair).
+     * La validation du mot de passe en clair est faite sur le DTO d'inscription.
+     */
     @NotBlank
     @Column(nullable = false, length = 255)
     private String password;
 
+    /** Date de création du compte, renseignée automatiquement et non modifiable. */
     @CreationTimestamp
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
+    /** Date de dernière modification du compte, mise à jour automatiquement. */
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
 
+    /** Thèmes auxquels l'utilisateur est abonné (table de jointure {@code subscriptions}). */
     @ManyToMany
     @JoinTable(
             name = "subscriptions",
