@@ -124,4 +124,22 @@ describe('Me', () => {
     expect(subscriptionApi.unsubscribe).toHaveBeenCalledWith(42);
     expect(reloadSpy).toHaveBeenCalled();
   });
+
+  it('should accept a password meeting all requirements', () => {
+  component.model.update((model) => ({
+    ...model,
+    password: 'Abcd123!',
+  }));
+
+  expect(component.profileForm.password().valid()).toBe(true);
+});
+
+it('should reject a password missing a required character type', () => {
+  component.model.update((model) => ({
+    ...model,
+    password: 'abcdefgh',
+  }));
+
+  expect(component.profileForm.password().valid()).toBe(false);
+});
 });
