@@ -87,7 +87,7 @@ export JWT_SECRET=ma_cle_secrete
 
 ```bash
 # Windows
-mvnw.cmd spring-boot:run
+.\mvnw.cmd spring-boot:run
 
 # Linux / macOS
 ./mvnw spring-boot:run
@@ -194,7 +194,36 @@ src/main/
 
 ## Javadoc
 
-_Section à compléter._
+Le code source (contrôleurs, services, repositories, mappers, entités, DTO, sécurité) est documenté en Javadoc.
+
+### Générer la documentation
+
+Depuis le dossier `back` :
+
+```bash
+# Windows
+.\mvnw.cmd javadoc:javadoc
+
+# Linux / macOS
+./mvnw javadoc:javadoc
+```
+
+### Consulter la documentation
+
+La documentation est générée dans `target/reports/apidocs/` (ou `target/site/apidocs/` selon la version du plugin Maven Javadoc). Ouvrir le fichier `index.html` dans un navigateur :
+
+```bash
+# Windows
+start target/reports/apidocs/index.html
+
+# macOS
+open target/reports/apidocs/index.html
+
+# Linux
+xdg-open target/reports/apidocs/index.html
+```
+
+Le dossier `target/` est régénéré à chaque build : il n'est pas versionné et la documentation doit être générée localement.
 
 ## Tests
 
