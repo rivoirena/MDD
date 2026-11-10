@@ -8,16 +8,21 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Corps de la requête d'inscription ({@code POST /api/auth/register}).
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegisterRequest {
 
+    /** Adresse email, unique (255 caractères maximum). */
     @NotBlank
     @Email
     @Size(max = 255)
     private String email;
 
+    /** Nom d'utilisateur, unique (50 caractères maximum), sans {@code @} ni espaces. */
     @NotBlank
     @Size(max = 50)
     @Pattern(
@@ -26,6 +31,10 @@ public class RegisterRequest {
     )
     private String username;
 
+    /**
+     * Mot de passe en clair (8 à 40 caractères) contenant au moins une minuscule,
+     * une majuscule, un chiffre et un caractère spécial.
+     */
     @NotBlank
     @Size(min = 8, max = 40)
     @Pattern(
