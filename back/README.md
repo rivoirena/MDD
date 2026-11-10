@@ -227,4 +227,21 @@ Le dossier `target/` est régénéré à chaque build : il n'est pas versionné 
 
 ## Tests
 
-_Section à compléter._
+Les tests automatisés sont exécutés avec Maven. Depuis le dossier `back` :
+
+```bash
+# Windows (PowerShell)
+.\mvnw.cmd clean test
+
+# Linux / macOS
+./mvnw clean test
+```
+Le rapport de couverture JaCoCo est généré dans target/site/jacoco/. Pour l’ouvrir sous Windows :
+
+```bash
+start target/site/jacoco/index.html
+```
+Sous macOS ou Linux :
+```bash
+open target/site/jacoco/index.html   # macOS
+xdg-open target/site/jacoco/index.html  # Linux
