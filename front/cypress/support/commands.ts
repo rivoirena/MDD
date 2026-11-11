@@ -41,6 +41,7 @@ declare global {
     interface Chainable {
       loginByToken(): Chainable<void>;
       typeInField(selector: string, text: string): Chainable<void>;
+      selectMatOption(selector: string, optionText: string): Chainable<void>;
     }
   }
 }
@@ -51,6 +52,12 @@ Cypress.Commands.add('loginByToken', () => {
 
 Cypress.Commands.add('typeInField', (selector: string, text: string) => {
   cy.get(selector).type(text, { force: true });
+});
+
+Cypress.Commands.add('selectMatOption', (selector: string, optionText: string) => {
+  cy.get(selector).focus().type('{enter}');
+  cy.get('mat-option[role="option"]').should('have.length.greaterThan', 0);
+  cy.contains('mat-option[role="option"]', optionText).click();
 });
 
 export {};
