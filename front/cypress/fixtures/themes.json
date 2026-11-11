@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Angular",
+    "description": "Framework front-end de Google pour créer des applications web.",
+    "subscribed": false
+  },
+  {
+    "id": 2,
+    "title": "Spring Boot",
+    "description": "Framework Java pour créer des API REST rapidement.",
+    "subscribed": true
+  },
+  {
+    "id": 3,
+    "title": "TypeScript",
+    "description": "Sur-ensemble typé de JavaScript.",
+    "subscribed": false
+  }
+]
