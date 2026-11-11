@@ -40,12 +40,17 @@ declare global {
   namespace Cypress {
     interface Chainable {
       loginByToken(): Chainable<void>;
+      typeInField(selector: string, text: string): Chainable<void>;
     }
   }
 }
 
 Cypress.Commands.add('loginByToken', () => {
   window.localStorage.setItem('token', 'fake-jwt-token');
+});
+
+Cypress.Commands.add('typeInField', (selector: string, text: string) => {
+  cy.get(selector).type(text, { force: true });
 });
 
 export {};
