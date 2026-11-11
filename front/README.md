@@ -146,4 +146,34 @@ src/
 
 ## Tests
 
-_Section à compléter (tests unitaires avec Jest)._
+### Tests unitaires (Jest)
+
+```bash
+# Lancer tous les tests unitaires
+npm test
+
+# Mode surveillance (relance à chaque modification)
+npm run test:watch
+
+# Générer le rapport de couverture
+npm run test:coverage
+```
+
+Le rapport de couverture est généré dans le dossier `coverage/`. Ouvrir `coverage/lcov-report/index.html` dans un navigateur pour le consulter fichier par fichier.
+
+### Tests end-to-end (Cypress)
+
+Les tests E2E sont exécutés avec **Microsoft Edge**. Le back-end doit être démarré, et l'application doit tourner sur `http://localhost:4200`.
+
+```bash
+# Ouvrir l'interface Cypress (mode interactif)
+npm run cy:open
+
+# Lancer tous les tests E2E en mode headless
+npm run cy:run
+
+# Lancer un seul fichier de test
+npx cypress run --browser edge --spec "cypress/e2e/login.cy.ts"
+```
+
+> Pour les tests E2E, l'application doit être lancée (`npm start`) dans un autre terminal avant `npm run cy:run`.
