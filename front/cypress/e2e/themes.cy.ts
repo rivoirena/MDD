@@ -23,9 +23,18 @@ describe('Themes', () => {
     cy.visit('/themes');
     cy.wait('@getThemes');
 
-    cy.contains('app-theme-card', 'Angular').find('button').should('contain', "S'abonner").and('be.enabled');
-    cy.contains('app-theme-card', 'TypeScript').find('button').should('contain', "S'abonner").and('be.enabled');
-    cy.contains('app-theme-card', 'Spring Boot').find('button').should('contain', 'Déjà abonné').and('be.disabled');
+    cy.contains('app-theme-card', 'Angular')
+      .find('button')
+      .should('contain', "S'abonner")
+      .and('be.enabled');
+    cy.contains('app-theme-card', 'TypeScript')
+      .find('button')
+      .should('contain', "S'abonner")
+      .and('be.enabled');
+    cy.contains('app-theme-card', 'Spring Boot')
+      .find('button')
+      .should('contain', 'Déjà abonné')
+      .and('be.disabled');
   });
 
   it('subscribes to a theme and refreshes the list', () => {
@@ -57,7 +66,7 @@ describe('Themes', () => {
     });
   });
 
-  it('does not change the list when the subscription fails', () => {
+  it('shows an error and keeps the list unchanged when the subscription fails', () => {
     cy.intercept('GET', '**/api/themes', { fixture: 'themes.json' }).as('getThemes');
     cy.intercept('POST', '**/api/users/me/subscriptions/1', {
       statusCode: 404,
@@ -70,7 +79,11 @@ describe('Themes', () => {
     cy.contains('app-theme-card', 'Angular').find('button').click();
     cy.wait('@subscribe');
 
-    cy.contains('app-theme-card', 'Angular').find('button').should('contain', "S'abonner").and('be.enabled');
+    cy.get('[role="alert"]').should('contain', "Une erreur est survenue lors de l'abonnement, réessaie.");
+    cy.contains('app-theme-card', 'Angular')
+      .find('button')
+      .should('contain', "S'abonner")
+      .and('be.enabled');
   });
 
   it('shows no theme card when the API returns an empty list', () => {
