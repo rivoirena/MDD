@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { ThemeApi } from '../../core/services/theme-api';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { ThemeCard } from '../../components/theme-card/theme-card';
@@ -15,6 +15,8 @@ export class Themes {
   private themeApi = inject(ThemeApi);
   private subscriptionApi = inject(SubscriptionApi);
 
+  subscribeError = signal(false);
+
   themes = rxResource({
     stream: () => this.themeApi.getAll(),
     defaultValue: [],
@@ -23,6 +25,7 @@ export class Themes {
   subscribe(theme: Theme): void {
     this.subscriptionApi.subscribe(theme.id).subscribe({
       next: () => this.themes.reload(),
+      error: () => this.subscribeError.set(true),
     });
   }
 }
