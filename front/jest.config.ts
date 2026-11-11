@@ -8,6 +8,7 @@ module.exports = {
   testPathIgnorePatterns: [
     '<rootDir>/node_modules/',
     '<rootDir>/dist/',
+    '<rootDir>/cypress/',
     '<rootDir>/src/test.ts', // fichier Karma par défaut
   ],
 };
