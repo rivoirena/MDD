@@ -63,4 +63,12 @@ describe('Login', () => {
     cy.get('a[aria-label="Retour"]').click();
     cy.url().should('eq', Cypress.config('baseUrl') + '/');
   });
+
+  it('keeps the user logged in after a page reload', () => {
+    cy.loginByToken();
+    cy.intercept('GET', '**/api/articles*', { fixture: 'articles.json' });
+    cy.visit('/articles');
+    cy.reload();
+    cy.url().should('match', /\/articles$/);
+  });
 });
