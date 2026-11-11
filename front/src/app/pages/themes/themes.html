@@ -1,4 +1,7 @@
 <main>
+  @if (subscribeError()) {
+    <p class="error" role="alert">Une erreur est survenue lors de l'abonnement, réessaie.</p>
+  }
   <ul>
     @for (theme of themes.value(); track theme.id) {
       <li>
