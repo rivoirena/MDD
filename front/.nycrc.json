@@ -1,0 +1,15 @@
+{
+  "extends": "@istanbuljs/nyc-config-typescript",
+  "all": false,
+  "include": ["**/src/app/**/*.ts"],
+  "exclude": [
+    "**/node_modules/**",
+    "**/*.spec.ts",
+    "**/main.ts",
+    "**/environments/**",
+    "**/*.module.ts"
+  ],
+  "reporter": ["lcov", "text-summary", "html"],
+  "report-dir": "coverage/cypress",
+  "temp-dir": ".nyc_output"
+}

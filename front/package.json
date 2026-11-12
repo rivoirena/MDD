@@ -10,7 +10,11 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "cy:open": "cypress open --browser edge",
-    "cy:run": "cypress run --browser edge"
+    "cy:run": "cypress run --browser edge",
+    "build:e2e": "ng build --configuration e2e",
+    "instrument": "nyc instrument dist/front-e2e/browser dist/front-instrumented --complete-copy --delete --include \"**/*.js\" --extension .js",
+    "serve:e2e": "serve -s dist/front-instrumented -l 4200",
+    "e2e:coverage": "npm run build:e2e && npm run instrument && start-server-and-test serve:e2e http://localhost:4200 cy:run"
   },
   "private": true,
   "packageManager": "npm@11.4.2",
@@ -30,13 +34,18 @@
     "@angular/build": "^22.2.2",
     "@angular/cli": "^22.2.2",
     "@angular/compiler-cli": "^22.2.0",
+    "@cypress/code-coverage": "^4.1.3",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/jest": "^30.0.0",
     "cypress": "^16.3.0",
     "jest": "^30.5.2",
     "jest-environment-jsdom": "^30.5.2",
     "jest-preset-angular": "^17.0.3",
     "jsdom": "^30.1.3",
+    "nyc": "^18.0.0",
     "prettier": "^3.8.1",
+    "serve": "^14.2.7",
+    "start-server-and-test": "^3.0.13",
     "ts-node": "^10.9.2",
     "typescript": "~6.0.2"
   }
