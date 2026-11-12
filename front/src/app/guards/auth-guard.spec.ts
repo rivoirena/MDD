@@ -1,16 +1,42 @@
 import { TestBed } from '@angular/core/testing';
-import { CanActivateFn } from '@angular/router';
+import { provideRouter, Router, UrlTree } from '@angular/router';
+import { Auth } from '../core/services/auth';
 import { authGuard } from './auth-guard';
 
 describe('authGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) =>
-    TestBed.runInInjectionContext(() => authGuard(...guardParameters));
+  let authService: { isLoggedIn: jest.Mock };
+  let router: Router;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    authService = {
+      isLoggedIn: jest.fn(),
+    };
+
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([]),
+        { provide: Auth, useValue: authService },
+      ],
+    });
+
+    router = TestBed.inject(Router);
   });
 
-  it('should be created', () => {
-    expect(executeGuard).toBeTruthy();
+  function executeGuard() {
+    return TestBed.runInInjectionContext(() => authGuard({} as never, {} as never));
+  }
+
+  it('allows navigation when the user is logged in', () => {
+    authService.isLoggedIn.mockReturnValue(true);
+
+    expect(executeGuard()).toBe(true);
+  });
+
+  it('redirects to /articles when the user is logged in', () => {
+    authService.isLoggedIn.mockReturnValue(false);
+
+    const result = executeGuard() as UrlTree;
+
+    expect(router.serializeUrl(result)).toBe('/login');
   });
 });

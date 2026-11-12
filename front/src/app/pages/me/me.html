@@ -21,7 +21,12 @@
 
       <mat-form-field appearance="outline">
         <mat-label>Mot de passe</mat-label>
-        <input matInput type="password" autocomplete="new-password" [formField]="profileForm.password" />
+        <input
+          matInput
+          type="password"
+          autocomplete="new-password"
+          [formField]="profileForm.password"
+        />
         <mat-hint>Laisser vide pour ne pas le changer</mat-hint>
         @for (e of profileForm.password().errors(); track e.kind) {
           <mat-error>{{ e.message }}</mat-error>
@@ -45,6 +50,10 @@
 
   <section aria-labelledby="subscriptions-title">
     <h2 id="subscriptions-title">Abonnements</h2>
+
+    @if (unsubscribeError()) {
+      <p class="error" role="alert">Une erreur est survenue lors de du désabonnement, réessaie.</p>
+    }
 
     @if (subscriptions.value()?.length) {
       <ul>

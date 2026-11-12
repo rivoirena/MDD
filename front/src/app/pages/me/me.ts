@@ -27,6 +27,8 @@ export class Me {
   private userApi = inject(UserApi);
   private subscriptionApi = inject(SubscriptionApi);
 
+  unsubscribeError = signal(false);
+
   user = rxResource({
     stream: () => this.userApi.loadProfile(),
   });
@@ -101,6 +103,7 @@ export class Me {
   unsubscribe(theme: Theme): void {
     this.subscriptionApi.unsubscribe(theme.id).subscribe({
       next: () => this.subscriptions.reload(),
+      error: () => this.unsubscribeError.set(true),
     });
   }
 }

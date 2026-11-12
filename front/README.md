@@ -66,12 +66,20 @@ npm run watch
 
 ## Scripts disponibles
 
-| Commande        | Description                                       |
-| --------------- | ------------------------------------------------- |
-| `npm start`     | Lance le serveur de développement (`ng serve`)    |
-| `npm run build` | Compile l'application pour la production          |
-| `npm run watch` | Compile en continu en configuration développement |
-| `npm test`      | Lance les tests _(section à compléter)_           |
+| Commande                   | Description                                                          |
+| -------------------------- | -------------------------------------------------------------------- |
+| `npm start`                | Lance le serveur de développement (`ng serve`)                       |
+| `npm run build`            | Compile l'application pour la production                             |
+| `npm run watch`            | Compile en continu en configuration développement                    |
+| `npm test`                 | Lance les tests unitaires (Jest)                                     |
+| `npm run test:watch`       | Lance les tests unitaires en mode surveillance                       |
+| `npm run test:coverage`    | Génère le rapport de couverture des tests unitaires                  |
+| `npm run cy:open`          | Ouvre l'interface Cypress (tests E2E)                                |
+| `npm run cy:run`           | Lance les tests E2E en mode headless                                 |
+| `npm run build:e2e`        | Compile l'application avec la configuration `e2e` (source maps)      |
+| `npm run instrument`       | Instrumente le build `e2e` avec nyc                                  |
+| `npm run serve:e2e`        | Sert le build instrumenté sur le port 4200                           |
+| `npm run e2e:coverage`     | Enchaîne build, instrumentation et tests E2E avec couverture de code |
 
 ## Authentification
 
@@ -146,4 +154,53 @@ src/
 
 ## Tests
 
-_Section à compléter (tests unitaires avec Jest)._
+### Tests unitaires (Jest)
+
+```bash
+# Lancer tous les tests unitaires
+npm test
+
+# Mode surveillance (relance à chaque modification)
+npm run test:watch
+
+# Générer le rapport de couverture
+npm run test:coverage
+```
+
+Le rapport de couverture est généré dans le dossier `coverage/`. Ouvrir `coverage/lcov-report/index.html` dans un navigateur pour le consulter fichier par fichier.
+
+### Tests end-to-end (Cypress)
+
+Les tests E2E sont exécutés avec **Microsoft Edge**. Le back-end doit être démarré, et l'application doit tourner sur `http://localhost:4200`.
+
+```bash
+# Ouvrir l'interface Cypress (mode interactif)
+npm run cy:open
+
+# Lancer tous les tests E2E en mode headless
+npm run cy:run
+
+# Lancer un seul fichier de test
+npx cypress run --browser edge --spec "cypress/e2e/login.cy.ts"
+```
+
+> Pour les tests E2E, l'application doit être lancée (`npm start`) dans un autre terminal avant `npm run cy:run`.
+
+### Couverture de code des tests E2E (Cypress)
+
+```bash
+npm run e2e:coverage
+```
+
+Cette commande est **autonome** : elle compile, instrumente, démarre le serveur, lance Cypress puis arrête le serveur. Il n'est donc **pas nécessaire** de lancer `npm start` au préalable. Seul le **back-end** doit être démarré.
+
+Le rapport est généré dans le dossier `coverage/cypress/`. Ouvrir `coverage/cypress/index.html` dans un navigateur pour le consulter fichier par fichier. Pour régénérer le rapport sans relancer les tests (par exemple après une modification de `.nycrc.json`) :
+
+```bash
+npx nyc report
+```
+
+#### Remarques
+
+- `npm start` et `npm run build` ne sont **pas instrumentés** : seul le build `e2e` l'est, le développement et la production ne sont pas impactés.
+- Les chemins du rapport sont préfixés par `dist/front-e2e/browser/` : c'est normal, ils proviennent du remapping des source maps depuis le code compilé.

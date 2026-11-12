@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "content": "Super article, merci pour le partage !",
+    "authorId": 2,
+    "authorName": "bob",
+    "articleId": 1,
+    "createdAt": "2026-11-10T10:15:00"
+  },
+  {
+    "id": 2,
+    "content": "Très clair, les signals sont vraiment pratiques.",
+    "authorId": 3,
+    "authorName": "carol",
+    "articleId": 1,
+    "createdAt": "2026-11-10T11:00:00"
+  }
+]

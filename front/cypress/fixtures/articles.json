@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Découvrir les signals Angular",
+    "content": "Les signals simplifient la gestion de la réactivité dans Angular.",
+    "createdAt": "2026-11-10T09:30:00",
+    "authorId": 1,
+    "authorName": "alice",
+    "themeId": 1,
+    "themeName": "Angular"
+  },
+  {
+    "id": 2,
+    "title": "Sécuriser une API avec JWT",
+    "content": "Voici comment mettre en place l'authentification JWT avec Spring Security.",
+    "createdAt": "2026-11-09T14:15:00",
+    "authorId": 2,
+    "authorName": "bob",
+    "themeId": 2,
+    "themeName": "Spring Boot"
+  }
+]
