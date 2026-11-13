@@ -2,7 +2,6 @@ package com.mdd.controllers;
 
 import com.mdd.payload.request.UpdateProfileRequest;
 import com.mdd.payload.response.JwtResponse;
-import com.mdd.payload.response.ThemeResponse;
 import com.mdd.payload.response.UserResponse;
 import com.mdd.services.UserService;
 import jakarta.validation.Valid;

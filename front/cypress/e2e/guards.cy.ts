@@ -1,7 +1,7 @@
 describe('Route guards', () => {
   it('redirects to /login when visiting a protected route without token', () => {
     cy.visit('/articles');
-    cy.url().should('include', '/login');
+    cy.location('pathname').should('eq', '/');
   });
 
   it('redirects to /articles when visiting /login while logged in', () => {

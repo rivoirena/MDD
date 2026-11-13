@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { RegisterRequest } from '../models/register-request';
 import { JwtResponse } from '../models/jwt-response';
 import { environment } from '../../../environments/environment';
 import { LoginRequest } from '../models/login-request';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class Auth {
   private http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/auth`;
