@@ -1,6 +1,5 @@
 package com.mdd.payload.response;
 
-import com.mdd.models.Theme;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

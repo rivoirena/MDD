@@ -8,7 +8,6 @@ import com.mdd.payload.request.LoginRequest;
 import com.mdd.payload.request.RegisterRequest;
 import com.mdd.payload.response.JwtResponse;
 import com.mdd.security.JwtService;
-import com.mdd.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;

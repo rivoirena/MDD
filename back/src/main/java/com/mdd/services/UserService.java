@@ -6,7 +6,6 @@ import com.mdd.mapper.ThemeMapper;
 import com.mdd.models.User;
 import com.mdd.payload.request.UpdateProfileRequest;
 import com.mdd.payload.response.JwtResponse;
-import com.mdd.payload.response.ThemeResponse;
 import com.mdd.payload.response.UserResponse;
 import com.mdd.repository.UserRepository;
 import com.mdd.security.JwtService;
