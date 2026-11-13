@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Service, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -7,7 +7,7 @@ import { Article } from '../models/article';
 
 import { CreateArticleRequest } from '../models/create-article-request';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class ArticleApi {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${environment.apiUrl}/articles`;

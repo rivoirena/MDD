@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, inject, signal } from '@angular/core';
+import { Service, inject, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { User } from '../models/user';
 import { UpdateProfileRequest } from '../models/update-profile-request';
 import { JwtResponse } from '../models/jwt-response';
 import { Theme } from '../models/theme';
 
-@Injectable({ providedIn: 'root' })
+@Service()
 export class UserApi {
   private http = inject(HttpClient);
   private baseUrl = 'http://localhost:8080/api/users';
