@@ -14,7 +14,7 @@
     "build:e2e": "ng build --configuration e2e",
     "instrument": "nyc instrument dist/front-e2e/browser dist/front-instrumented --complete-copy --delete --include \"**/*.js\" --extension .js",
     "serve:e2e": "serve -s dist/front-instrumented -l 4200",
-    "e2e:coverage": "npm run build:e2e && npm run instrument && start-server-and-test serve:e2e http://localhost:4200 cy:run"
+    "e2e:coverage": "npm run build:e2e && npm run instrument && start-server-and-test serve:e2e http://localhost:4200 cy:run && npx nyc report"
   },
   "private": true,
   "packageManager": "npm@11.4.2",
