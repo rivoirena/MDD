@@ -92,10 +92,16 @@ describe('Article list', () => {
   });
 
   it('navigates to the article creation page', () => {
+    cy.fixture('themes.json').then((themes) => {
+      cy.intercept('GET', '**/api/themes*', themes).as('getThemes');
+    });
+
     cy.visit('/articles');
     cy.wait('@getArticles');
 
     cy.contains('a', 'Créer un article').click();
+
+    cy.wait('@getThemes');
 
     cy.url().should('include', '/articles/new');
   });

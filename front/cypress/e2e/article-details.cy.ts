@@ -84,7 +84,12 @@ describe('Article detail', () => {
   });
 
   it('goes back to the list with the back button', () => {
+    cy.fixture('articles.json').then((articles) => {
+      cy.intercept('GET', '**/api/articles?*', articles).as('getArticles');
+    });
+
     visitDetail();
+    
     cy.get('button[aria-label="Retour"]').click();
     cy.url().should('match', /\/articles$/);
   });
